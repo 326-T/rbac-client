@@ -4,6 +4,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { DrawerProvider } from "./contexts/DrawerProvider";
 import { AxiosProvider } from "./contexts/AxiosProvider";
+import { MessageProvider } from "./contexts/MessageProvider";
+import Loading from "./components/organisms/Loading";
+import { LoadingProvider } from "./contexts/LoadingProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,9 +17,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="jp">
       <body>
-        <DrawerProvider>
-          <AxiosProvider>{children}</AxiosProvider>
-        </DrawerProvider>
+        <LoadingProvider>
+          <MessageProvider>
+            <DrawerProvider>
+              <AxiosProvider>{children}</AxiosProvider>
+            </DrawerProvider>
+          </MessageProvider>
+        </LoadingProvider>
       </body>
     </html>
   );
