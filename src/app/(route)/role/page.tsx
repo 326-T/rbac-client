@@ -1,5 +1,5 @@
 "use client";
-import Card from "@/app/components/molecules/Card";
+import Card from "@/app/components/Card";
 import { Role } from "@/app/types/Role";
 import axios from "axios";
 import { useEffect, useState } from "react";

@@ -1,4 +1,4 @@
-export default function MenuItem({
+export default function NavigationItem({
   icon,
   label,
   href,

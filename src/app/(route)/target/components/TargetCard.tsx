@@ -1,11 +1,11 @@
-import Card from "@/app/components/molecules/Card";
+import Card from "@/app/components/Card";
 import { Target } from "@/app/types/Target";
 import { useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FiEdit } from "react-icons/fi";
 import { FaRegCheckSquare } from "react-icons/fa";
 import { VscDiscard } from "react-icons/vsc";
-import { TextField } from "../../../components/atoms/TextField";
+import { TextField } from "../../../components/TextField";
 import axios from "axios";
 
 export default function TargetCard({ target }: { target: Target }) {

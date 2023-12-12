@@ -1,4 +1,4 @@
-import ClientOnly from "../components/organisms/ClientOnly";
+import ClientOnly from "../components/ClientOnly";
 import DashBoardLayout from "../components/template/DashBoardLayout";
 
 export const metadata = {

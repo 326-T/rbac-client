@@ -1,5 +1,5 @@
 "use client";
-import Card from "@/app/components/molecules/Card";
+import Card from "@/app/components/Card";
 import { TargetGroup } from "@/app/types/TargetGroup";
 import axios from "axios";
 import { useEffect, useState } from "react";

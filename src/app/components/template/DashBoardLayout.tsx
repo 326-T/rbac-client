@@ -1,8 +1,8 @@
-import AppHeader from "@/components/molecules/AppHeader";
-import NavigationList from "@/components/organisms/NavigationList";
-import DrawerRight from "@/components/organisms/DrawerRight";
-import Loading from "@/components/organisms/Loading";
-import MessageArea from "../organisms/MessageArea";
+import AppHeader from "@/app/components/app-bar/AppHeader";
+import NavigationList from "@/app/components/navigation-list/NavigationList";
+import DrawerRight from "@/app/components/DrawerRight";
+import Loading from "@/app/components/Loading";
+import MessageStack from "../message-stack/MessageStack";
 
 export default function DashBoardLayout({
   children,
@@ -18,7 +18,7 @@ export default function DashBoardLayout({
         {children}
       </div>
       <Loading />
-      <MessageArea />
+      <MessageStack />
     </>
   );
 }

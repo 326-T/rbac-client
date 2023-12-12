@@ -7,7 +7,7 @@ import { MdDataObject } from "react-icons/md";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { TbAccessPoint } from "react-icons/tb";
 import { MdAltRoute } from "react-icons/md";
-import MenuItem from "@/components/molecules/MenuItem";
+import NavigationItem from "@/app/components/navigation-list/NavigationItem";
 
 export default function NavigationList({}: {}) {
   const menuItems = [
@@ -50,7 +50,7 @@ export default function NavigationList({}: {}) {
       <ol className="space-y-2">
         {menuItems.map((menuItem) => (
           <li key={menuItem.label}>
-            <MenuItem
+            <NavigationItem
               icon={menuItem.icon}
               label={menuItem.label}
               href={menuItem.href}

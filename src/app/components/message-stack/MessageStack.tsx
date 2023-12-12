@@ -3,7 +3,7 @@ import { MessageContext } from "@/app/contexts/MessageProvider";
 import { useContext } from "react";
 import MessageCard from "./MessageCard";
 
-export default function MessageArea() {
+export default function MessageStack() {
   const messageContext = useContext(MessageContext);
 
   return (
@@ -12,6 +12,7 @@ export default function MessageArea() {
         className="
             fixed bottom-0 right-0 z-30
             p-2 space-y-2
+            max-h-full overflow-y-auto
             block
           "
       >
