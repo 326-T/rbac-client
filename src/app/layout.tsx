@@ -5,7 +5,6 @@ import "./globals.css";
 import { DrawerProvider } from "./contexts/DrawerProvider";
 import { AxiosProvider } from "./contexts/AxiosProvider";
 import { MessageProvider } from "./contexts/MessageProvider";
-import Loading from "./components/organisms/Loading";
 import { LoadingProvider } from "./contexts/LoadingProvider";
 
 export const metadata: Metadata = {

@@ -7,14 +7,9 @@ import { useEffect, useState } from "react";
 export default function Page() {
   const [userGroups, setUserGroups] = useState<UserGroup[]>([]);
   const fetchUserGroups = async () => {
-    await axios
-      .get("/rbac-service/v1/user-groups")
-      .then((res) => {
-        setUserGroups(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    await axios.get("/rbac-service/v1/user-groups").then((res) => {
+      setUserGroups(res.data);
+    });
   };
 
   useEffect(() => {

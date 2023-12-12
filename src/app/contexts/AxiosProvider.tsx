@@ -1,9 +1,8 @@
 "use client";
-import axios, { Axios, AxiosInstance } from "axios";
+import axios, { AxiosInstance } from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { LoadingContext } from "./LoadingProvider";
 import { MessageContext } from "./MessageProvider";
-import { error } from "console";
 
 export const AxiosContext = createContext<{}>({});
 
@@ -19,14 +18,12 @@ export function AxiosProvider({ children }: { children: React.ReactNode }) {
       .then((res) => {
         axios.defaults.baseURL = res.data.baseUrl;
         axios.defaults.headers.common["Authorization"] = res.data.authorization;
-      })
-      .finally(() => {
-        setIsAxiosReady(true);
+        axios.interceptors.request.clear();
         axios.interceptors.request.use((config) => {
           loadingContext.turnOn();
           return config;
         });
-
+        axios.interceptors.response.clear();
         axios.interceptors.response.use(
           (response) => {
             loadingContext.turnOff();
@@ -44,11 +41,14 @@ export function AxiosProvider({ children }: { children: React.ReactNode }) {
             return Promise.reject(error);
           }
         );
+      })
+      .finally(() => {
+        setIsAxiosReady(true);
       });
   };
 
   useEffect(() => {
-    setUpAxios();
+    !isAxiosReady && setUpAxios();
   }, []);
 
   return (

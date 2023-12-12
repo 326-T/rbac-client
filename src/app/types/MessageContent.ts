@@ -1,6 +1,6 @@
 const MessageThemes = {
   SUCCESS: {
-    title: "NOTICE",
+    title: "SUCCESS",
     severity: "success",
   },
   INFO: {

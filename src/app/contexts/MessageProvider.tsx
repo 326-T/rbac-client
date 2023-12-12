@@ -14,7 +14,7 @@ const reducerForMessages = (state: MessageContent[], action: Actions) => {
       return [...state, action.payload];
     case "remove":
       return state.filter(
-        (message: MessageContent, index: number) => index !== action.payload + 1
+        (message: MessageContent, index: number) => index !== action.payload
       );
     case "clear":
       return [];
@@ -26,31 +26,26 @@ const reducerForMessages = (state: MessageContent[], action: Actions) => {
 export const MessageContext = createContext<{
   messages: MessageContent[];
   pushMessage: (message: MessageContent) => void;
-  deleteMessage: (index: number) => void;
-  clearMessages: () => void;
 }>({
   messages: [],
   pushMessage: () => {},
-  deleteMessage: () => {},
-  clearMessages: () => {},
 });
 
 export function MessageProvider({ children }: { children: React.ReactNode }) {
   const [messages, dispatch] = useReducer(reducerForMessages, []);
 
-  const pushMessage = (message: MessageContent) =>
+  const pushMessage = (message: MessageContent) => {
     dispatch({ type: "set", payload: message });
-  const deleteMessage = (index: number) =>
-    dispatch({ type: "remove", payload: index });
-  const clearMessages = () => dispatch({ type: "clear" });
+    setTimeout(() => {
+      dispatch({ type: "remove", payload: 0 });
+    }, 5000);
+  };
 
   return (
     <MessageContext.Provider
       value={{
         messages,
         pushMessage,
-        deleteMessage,
-        clearMessages,
       }}
     >
       {children}
