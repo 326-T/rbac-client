@@ -49,13 +49,18 @@ const config: Config = {
         text: "#0F172A",
       },
       keyframes: {
-        slideIn: {
-          "0%": { transform: "translateX(100%)" },
+        fadeIn: {
+          "0%": { transform: "translateX(150%)" },
           "100%": { transform: "translateX(0)" },
+        },
+        fadeOut: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(150%)" },
         },
       },
       animation: {
-        "slide-in": "slideIn 0.5s ease-out",
+        "fade-in": "fadeIn 0.5s ease-out",
+        "fade-out": "fadeOut 0.5s forwards",
       },
     },
   },

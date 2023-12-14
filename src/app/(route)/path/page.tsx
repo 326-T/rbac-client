@@ -7,14 +7,9 @@ import { useEffect, useState } from "react";
 export default function Page() {
   const [paths, setPaths] = useState<Path[]>([]);
   const fetchPaths = async () => {
-    await axios
-      .get("/rbac-service/v1/paths")
-      .then((res) => {
-        setPaths(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    await axios.get("/rbac-service/v1/paths").then((res) => {
+      setPaths(res.data);
+    });
   };
 
   useEffect(() => {

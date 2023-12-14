@@ -7,14 +7,9 @@ import { useEffect, useState } from "react";
 export default function Page() {
   const [roles, setRoles] = useState<Role[]>([]);
   const fetchRoles = async () => {
-    await axios
-      .get("/rbac-service/v1/roles")
-      .then((res) => {
-        setRoles(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    await axios.get("/rbac-service/v1/roles").then((res) => {
+      setRoles(res.data);
+    });
   };
 
   useEffect(() => {

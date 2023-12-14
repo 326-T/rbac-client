@@ -3,9 +3,11 @@ import { FaCheckCircle } from "react-icons/fa";
 import { BsInfoCircleFill } from "react-icons/bs";
 import { MdOutlineError } from "react-icons/md";
 import { IoIosWarning } from "react-icons/io";
+import { useEffect, useMemo, useState } from "react";
 
 export default function MessageCard({ content }: { content: MessageContent }) {
-  const renderIcon = (content: MessageContent) => {
+  const [cssAnimation, setCssAnimation] = useState<string>("animate-fade-in");
+  const renderIcon = useMemo(() => {
     switch (content.theme) {
       case "ERROR":
         return <MdOutlineError className="w-8 h-8 text-red-500" />;
@@ -18,9 +20,9 @@ export default function MessageCard({ content }: { content: MessageContent }) {
       default:
         return <></>;
     }
-  };
+  }, []);
 
-  const renderColor = (content: MessageContent) => {
+  const renderColor = useMemo(() => {
     switch (content.theme) {
       case "ERROR":
         return "border-red-500";
@@ -31,7 +33,13 @@ export default function MessageCard({ content }: { content: MessageContent }) {
       case "SUCCESS":
         return "border-primary-600";
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setCssAnimation("animate-fade-out");
+    }, 4500);
+  }, []);
 
   return (
     <div
@@ -39,13 +47,15 @@ export default function MessageCard({ content }: { content: MessageContent }) {
         flex items-center
         p-3 space-x-3
         rounded-lg border-2
-        ${renderColor(content)}
+        ${renderColor}
         bg-white
-        animate-slide-in
+        ${cssAnimation}
       `}
     >
-      {renderIcon(content)}
-      <h5 className="body-large text-gray-700 max-w-md">{content.message}</h5>
+      {renderIcon}
+      <h5 className="body-large text-gray-700 max-w-md">
+        {content.id}: {content.message}
+      </h5>
     </div>
   );
 }

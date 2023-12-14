@@ -7,14 +7,16 @@ export default function DrawerRight() {
 
   return (
     <>
-      {drawerContext.state.right.open && (
+      {drawerContext.state.open && (
         <>
           <div
             className="
               fixed top-0 left-0
               h-full w-6/12
+              bg-gray-600
+              opacity-50
             "
-            onClick={drawerContext.toggleRight}
+            onClick={drawerContext.toggle}
           ></div>
           <div
             className="
@@ -23,7 +25,7 @@ export default function DrawerRight() {
               p-4 border-l-2 bg-white border-gray-200
             "
           >
-            {drawerContext.state.right.component}
+            {drawerContext.state.component}
           </div>
         </>
       )}

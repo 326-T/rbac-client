@@ -7,14 +7,9 @@ import { useEffect, useState } from "react";
 export default function Page() {
   const [endpoints, setEndpoints] = useState<Endpoint[]>([]);
   const fetchEndpoints = async () => {
-    await axios
-      .get("/rbac-service/v1/endpoints")
-      .then((res) => {
-        setEndpoints(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    await axios.get("/rbac-service/v1/endpoints").then((res) => {
+      setEndpoints(res.data);
+    });
   };
 
   useEffect(() => {

@@ -20,6 +20,7 @@ const MessageThemes = {
 export type MessageThemes = keyof typeof MessageThemes;
 
 export interface MessageContent {
+  id?: string;
   theme: MessageThemes;
   message: string;
 }

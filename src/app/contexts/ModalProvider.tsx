@@ -1,19 +1,19 @@
 "use client";
 import { createContext, useReducer } from "react";
 
-export interface DrawerState {
+export interface ModalState {
   open: boolean;
   component: React.ReactNode;
 }
 
 type Actions = { type: "TOGGLE" } | { type: "SET"; component: React.ReactNode };
 
-const drawerStateInit: DrawerState = {
+const modalStateInit: ModalState = {
   open: false,
   component: null,
 };
 
-const reducerForDrawer = (state: DrawerState, action: Actions): DrawerState => {
+const reducerForModal = (state: ModalState, action: Actions): ModalState => {
   switch (action.type) {
     case "TOGGLE":
       return {
@@ -30,25 +30,25 @@ const reducerForDrawer = (state: DrawerState, action: Actions): DrawerState => {
   }
 };
 
-export const DrawerContext = createContext<{
-  state: DrawerState;
+export const ModalContext = createContext<{
+  state: ModalState;
   toggle: () => void;
   set: (component: React.ReactNode) => void;
 }>({
-  state: drawerStateInit,
+  state: modalStateInit,
   toggle: () => {},
   set: () => {},
 });
 
-export function DrawerProvider({ children }: { children: React.ReactNode }) {
-  const [state, dispatch] = useReducer(reducerForDrawer, drawerStateInit);
+export function ModalProvider({ children }: { children: React.ReactNode }) {
+  const [state, dispatch] = useReducer(reducerForModal, modalStateInit);
 
   const toggle = () => dispatch({ type: "TOGGLE" });
   const set = (component: React.ReactNode) =>
     dispatch({ type: "SET", component });
 
   return (
-    <DrawerContext.Provider
+    <ModalContext.Provider
       value={{
         state,
         toggle,
@@ -56,6 +56,6 @@ export function DrawerProvider({ children }: { children: React.ReactNode }) {
       }}
     >
       {children}
-    </DrawerContext.Provider>
+    </ModalContext.Provider>
   );
 }

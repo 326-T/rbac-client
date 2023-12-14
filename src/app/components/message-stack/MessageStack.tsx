@@ -10,11 +10,11 @@ export default function MessageStack() {
     <>
       <div
         className="
-            fixed bottom-0 right-0 z-30
-            p-2 space-y-2
-            max-h-full overflow-y-auto
-            block
-          "
+          fixed bottom-0 right-0 z-30
+          p-2 space-y-2
+          max-h-full overflow-hidden
+          block
+        "
       >
         {messageContext.messages.map((m) => (
           <MessageCard content={m} />

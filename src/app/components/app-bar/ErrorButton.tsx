@@ -3,7 +3,6 @@ import axios from "axios";
 export default function ErrorButton() {
   const onClick = () => {
     axios.get("/error");
-    console.log(axios.interceptors.request);
   };
   return (
     <button

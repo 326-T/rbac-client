@@ -1,5 +1,5 @@
 import ClientOnly from "../components/ClientOnly";
-import DashBoardLayout from "../components/template/DashBoardLayout";
+import DashBoardLayout from "../template/DashBoardLayout";
 
 export const metadata = {
   title: "Next.js",

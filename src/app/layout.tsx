@@ -6,6 +6,7 @@ import { DrawerProvider } from "./contexts/DrawerProvider";
 import { AxiosProvider } from "./contexts/AxiosProvider";
 import { MessageProvider } from "./contexts/MessageProvider";
 import { LoadingProvider } from "./contexts/LoadingProvider";
+import { ModalProvider } from "./contexts/ModalProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,7 +20,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <LoadingProvider>
           <MessageProvider>
             <DrawerProvider>
-              <AxiosProvider>{children}</AxiosProvider>
+              <ModalProvider>
+                <AxiosProvider>{children}</AxiosProvider>
+              </ModalProvider>
             </DrawerProvider>
           </MessageProvider>
         </LoadingProvider>
