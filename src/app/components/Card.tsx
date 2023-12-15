@@ -8,7 +8,7 @@ export default function Card({
   return (
     <div
       className={
-        "flex w-full p-5 rounded-lg bg-white shadow-md hover:shadow-lg transition-transform duration-500 ease-in-out"
+        "flex w-full p-5 rounded-lg bg-white shadow-md hover:shadow-lg"
       }
       onClick={onClick}
     >

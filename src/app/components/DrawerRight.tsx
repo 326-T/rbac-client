@@ -1,9 +1,11 @@
 "use client";
 import { DrawerContext } from "@/app/contexts/DrawerProvider";
 import { useContext } from "react";
+import { useEscapeKey } from "../hooks/useEscapeKey";
 
 export default function DrawerRight() {
   const drawerContext = useContext(DrawerContext);
+  useEscapeKey(drawerContext.turnOff);
 
   return (
     <>
@@ -16,7 +18,7 @@ export default function DrawerRight() {
               bg-gray-600
               opacity-50
             "
-            onClick={drawerContext.toggle}
+            onClick={drawerContext.turnOff}
           ></div>
           <div
             className="

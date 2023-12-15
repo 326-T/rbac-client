@@ -1,16 +1,15 @@
 import Card from "@/app/components/Card";
 import { Target } from "@/app/types/Target";
-import { useState } from "react";
-import { AiOutlineDelete } from "react-icons/ai";
-import { FiEdit } from "react-icons/fi";
-import { FaRegCheckSquare } from "react-icons/fa";
-import { VscDiscard } from "react-icons/vsc";
-import { TextField } from "../../../components/TextField";
+import { useContext, useState } from "react";
 import axios from "axios";
+import EditMenu from "@/app/components/menu/EditMenu";
+import { ModalContext } from "@/app/contexts/ModalProvider";
+import Confirmation from "@/app/components/modal/Confirmation";
 
 export default function TargetCard({ target }: { target: Target }) {
-  const [editable, setEditable] = useState<boolean>(false);
   const [value, setValue] = useState<string>(target.objectIdRegex);
+  const modalContext = useContext(ModalContext);
+
   const updateTarget = () => {
     axios.put(`/rbac-service/v1/targets/${target.id}`, {
       objectIdRegex: value,
@@ -21,43 +20,23 @@ export default function TargetCard({ target }: { target: Target }) {
     axios.delete(`/rbac-service/v1/targets/${target.id}`);
   };
 
+  const onDeleteClick = () => {
+    modalContext.set(
+      <Confirmation
+        onClick={() => {
+          deleteTarget();
+          modalContext.turnOff();
+        }}
+      />
+    );
+    modalContext.turnOn();
+  };
+
   return (
     <Card>
       <div className="flex w-full items-center justify-between space-x-5">
-        {!editable ? (
-          <h5 className="body-large">{target.objectIdRegex}</h5>
-        ) : (
-          <TextField value={value} onChange={(value) => setValue(value)} />
-        )}
-        {!editable ? (
-          <div className="flex space-x-2">
-            <button onClick={() => setEditable(true)}>
-              <FiEdit className="form-icon" />
-            </button>
-            <button onClick={deleteTarget}>
-              <AiOutlineDelete className="form-warning-icon" />
-            </button>
-          </div>
-        ) : (
-          <div className="flex space-x-2">
-            <button
-              onClick={() => {
-                updateTarget();
-                setEditable(false);
-              }}
-            >
-              <FaRegCheckSquare className="form-icon" />
-            </button>
-            <button
-              onClick={() => {
-                setValue(target.objectIdRegex);
-                setEditable(false);
-              }}
-            >
-              <VscDiscard className="form-warning-icon" />
-            </button>
-          </div>
-        )}
+        <h5 className="body-large">{target.objectIdRegex}</h5>
+        <EditMenu onEditClick={() => {}} onDeleteClick={onDeleteClick} />
       </div>
     </Card>
   );

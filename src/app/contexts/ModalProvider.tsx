@@ -6,7 +6,10 @@ export interface ModalState {
   component: React.ReactNode;
 }
 
-type Actions = { type: "TOGGLE" } | { type: "SET"; component: React.ReactNode };
+type Actions =
+  | { type: "turn on" }
+  | { type: "turn off" }
+  | { type: "SET"; component: React.ReactNode };
 
 const modalStateInit: ModalState = {
   open: false,
@@ -15,10 +18,15 @@ const modalStateInit: ModalState = {
 
 const reducerForModal = (state: ModalState, action: Actions): ModalState => {
   switch (action.type) {
-    case "TOGGLE":
+    case "turn on":
       return {
         ...state,
-        open: !state.open,
+        open: true,
+      };
+    case "turn off":
+      return {
+        ...state,
+        open: false,
       };
     case "SET":
       return {
@@ -32,18 +40,21 @@ const reducerForModal = (state: ModalState, action: Actions): ModalState => {
 
 export const ModalContext = createContext<{
   state: ModalState;
-  toggle: () => void;
+  turnOn: () => void;
+  turnOff: () => void;
   set: (component: React.ReactNode) => void;
 }>({
   state: modalStateInit,
-  toggle: () => {},
+  turnOn: () => {},
+  turnOff: () => {},
   set: () => {},
 });
 
 export function ModalProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducerForModal, modalStateInit);
 
-  const toggle = () => dispatch({ type: "TOGGLE" });
+  const turnOn = () => dispatch({ type: "turn on" });
+  const turnOff = () => dispatch({ type: "turn off" });
   const set = (component: React.ReactNode) =>
     dispatch({ type: "SET", component });
 
@@ -51,7 +62,8 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
     <ModalContext.Provider
       value={{
         state,
-        toggle,
+        turnOn,
+        turnOff,
         set,
       }}
     >

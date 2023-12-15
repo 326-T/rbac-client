@@ -6,7 +6,10 @@ export interface DrawerState {
   component: React.ReactNode;
 }
 
-type Actions = { type: "TOGGLE" } | { type: "SET"; component: React.ReactNode };
+type Actions =
+  | { type: "turn on" }
+  | { type: "turn off" }
+  | { type: "SET"; component: React.ReactNode };
 
 const drawerStateInit: DrawerState = {
   open: false,
@@ -15,10 +18,15 @@ const drawerStateInit: DrawerState = {
 
 const reducerForDrawer = (state: DrawerState, action: Actions): DrawerState => {
   switch (action.type) {
-    case "TOGGLE":
+    case "turn on":
       return {
         ...state,
-        open: !state.open,
+        open: true,
+      };
+    case "turn off":
+      return {
+        ...state,
+        open: false,
       };
     case "SET":
       return {
@@ -32,18 +40,21 @@ const reducerForDrawer = (state: DrawerState, action: Actions): DrawerState => {
 
 export const DrawerContext = createContext<{
   state: DrawerState;
-  toggle: () => void;
+  turnOn: () => void;
+  turnOff: () => void;
   set: (component: React.ReactNode) => void;
 }>({
   state: drawerStateInit,
-  toggle: () => {},
+  turnOn: () => {},
+  turnOff: () => {},
   set: () => {},
 });
 
 export function DrawerProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducerForDrawer, drawerStateInit);
 
-  const toggle = () => dispatch({ type: "TOGGLE" });
+  const turnOn = () => dispatch({ type: "turn on" });
+  const turnOff = () => dispatch({ type: "turn off" });
   const set = (component: React.ReactNode) =>
     dispatch({ type: "SET", component });
 
@@ -51,7 +62,8 @@ export function DrawerProvider({ children }: { children: React.ReactNode }) {
     <DrawerContext.Provider
       value={{
         state,
-        toggle,
+        turnOn,
+        turnOff,
         set,
       }}
     >

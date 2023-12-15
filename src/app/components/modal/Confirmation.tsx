@@ -1,4 +1,10 @@
-export default function Confirmation() {
+"use client";
+
+import { useEnterKey } from "@/app/hooks/useEnterKey";
+
+export default function Confirmation({ onClick }: { onClick: () => void }) {
+  useEnterKey(onClick);
+
   return (
     <div
       className="
@@ -6,11 +12,22 @@ export default function Confirmation() {
       "
     >
       <div className="w-full flex justify-center">
-        <h3>本当に削除してもよろしいですか？</h3>
+        <h3 className="body-large">
+          本当に削除してもよろしいですか？
+          <br />
+          この操作は取り消せません。
+        </h3>
       </div>
       <div className="w-full flex justify-center">
-        <button className="p-3 rounded-lg title-medium text-white bg-primary-400">
-          OK
+        <button
+          onClick={onClick}
+          className="
+            p-2 rounded-lg body-large
+            clickable-warning
+            border-2 border-red-500
+          "
+        >
+          Delete
         </button>
       </div>
     </div>

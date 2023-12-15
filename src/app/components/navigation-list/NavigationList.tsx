@@ -12,32 +12,32 @@ import NavigationItem from "@/app/components/navigation-list/NavigationItem";
 export default function NavigationList({}: {}) {
   const menuItems = [
     {
-      icon: <GrGroup className="navigation-icon" />,
+      icon: <GrGroup className="icon-large" />,
       label: "User Group",
       href: "/user-group",
     },
     {
-      icon: <MdOutlineAdminPanelSettings className="navigation-icon" />,
+      icon: <MdOutlineAdminPanelSettings className="icon-large" />,
       label: "Role",
       href: "/role",
     },
     {
-      icon: <TbAccessPoint className="navigation-icon" />,
+      icon: <TbAccessPoint className="icon-large" />,
       label: "Endpoint",
       href: "/endpoint",
     },
     {
-      icon: <MdAltRoute className="navigation-icon" />,
+      icon: <MdAltRoute className="icon-large" />,
       label: "Path",
       href: "/path",
     },
     {
-      icon: <MdDataObject className="navigation-icon" />,
+      icon: <MdDataObject className="icon-large" />,
       label: "Object Group",
       href: "/target-group",
     },
     {
-      icon: <TfiTarget className="navigation-icon" />,
+      icon: <TfiTarget className="icon-large" />,
       label: "Object",
       href: "/target",
     },

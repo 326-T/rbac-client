@@ -2,16 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-.navigation-icon {
+.icon-large {
   @apply w-8 h-8;
 }
 
-.form-icon {
-  @apply w-8 h-8 p-2 rounded-lg bg-primary-400 text-white hover:bg-primary-700;
+.icon-medium {
+  @apply w-6 h-6;
 }
 
-.form-warning-icon {
-  @apply w-8 h-8 p-2 rounded-lg bg-yellow-400 text-white hover:bg-yellow-700;
+.icon-small {
+  @apply w-5 h-5;
+}
+
+.clickable {
+  @apply cursor-pointer text-gray-700 hover:bg-primary-300 hover:text-white hover:shadow-lg;
+}
+
+.clickable-warning {
+  @apply cursor-pointer text-red-600 hover:bg-red-600 hover:text-white hover:shadow-lg;
 }
 
 .wrap-words {
