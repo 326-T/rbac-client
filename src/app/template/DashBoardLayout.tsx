@@ -15,7 +15,7 @@ export default function DashBoardLayout({
       <AppHeader />
       <NavigationList />
       <DrawerRight />
-      <div className="flex pt-20 pl-64 min-h-screen w-full bg-neutral-100">
+      <div className="flex pt-20 md:pl-64 min-h-screen w-full bg-neutral-100">
         {children}
       </div>
       <Loading />

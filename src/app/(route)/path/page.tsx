@@ -1,8 +1,8 @@
 "use client";
-import Card from "@/app/components/Card";
 import { Path } from "@/app/types/Path";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import PathCard from "./components/PathCard";
 
 export default function Page() {
   const [paths, setPaths] = useState<Path[]>([]);
@@ -20,7 +20,7 @@ export default function Page() {
     <ol className="space-y-2 w-full p-2">
       {paths.map((path) => (
         <li key={path.id}>
-          <Card key={path.id}>{path.regex}</Card>
+          <PathCard path={path} fetchPaths={fetchPaths} />
         </li>
       ))}
     </ol>

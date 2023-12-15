@@ -21,7 +21,7 @@ export default function Page() {
     <ol className="space-y-2 w-full p-2">
       {targets.map((target) => (
         <li key={target.id}>
-          <TargetCard target={target} />
+          <TargetCard target={target} fetchTargets={fetchTargets} />
         </li>
       ))}
     </ol>

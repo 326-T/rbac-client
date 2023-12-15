@@ -14,7 +14,7 @@
   @apply w-5 h-5;
 }
 
-.clickable {
+.clickable-primary {
   @apply cursor-pointer text-gray-700 hover:bg-primary-300 hover:text-white hover:shadow-lg;
 }
 

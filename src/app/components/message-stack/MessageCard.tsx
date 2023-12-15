@@ -53,9 +53,7 @@ export default function MessageCard({ content }: { content: MessageContent }) {
       `}
     >
       {renderIcon}
-      <h5 className="body-large text-gray-700 max-w-md">
-        {content.id}: {content.message}
-      </h5>
+      <h5 className="body-large text-gray-700 max-w-md">{content.message}</h5>
     </div>
   );
 }

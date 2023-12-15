@@ -11,19 +11,27 @@ export default function () {
   return (
     <>
       {modalContext.state.open && (
-        <div
-          className="
+        <>
+          <div
+            className="
+            fixed top-0 left-0 z-30
+            w-full h-full
+            opacity-50 bg-gray-600
+          "
+          />
+          <div
+            className="
             fixed top-0 left-0 z-40
             flex items-center
             w-full h-full
             justify-center 
-            opacity-50 bg-gray-600
           "
-        >
-          <ModalCard close={modalContext.turnOff}>
-            {modalContext.state.component}
-          </ModalCard>
-        </div>
+          >
+            <ModalCard close={modalContext.turnOff}>
+              {modalContext.state.component}
+            </ModalCard>
+          </div>
+        </>
       )}
     </>
   );

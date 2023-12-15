@@ -12,32 +12,34 @@ import NavigationItem from "@/app/components/navigation-list/NavigationItem";
 export default function NavigationList({}: {}) {
   const menuItems = [
     {
-      icon: <GrGroup className="icon-large" />,
+      icon: <GrGroup className="icon-small md:icon-large" />,
       label: "User Group",
       href: "/user-group",
     },
     {
-      icon: <MdOutlineAdminPanelSettings className="icon-large" />,
+      icon: (
+        <MdOutlineAdminPanelSettings className="icon-small md:icon-large" />
+      ),
       label: "Role",
       href: "/role",
     },
     {
-      icon: <TbAccessPoint className="icon-large" />,
+      icon: <TbAccessPoint className="icon-small md:icon-large" />,
       label: "Endpoint",
       href: "/endpoint",
     },
     {
-      icon: <MdAltRoute className="icon-large" />,
+      icon: <MdAltRoute className="icon-small md:icon-large" />,
       label: "Path",
       href: "/path",
     },
     {
-      icon: <MdDataObject className="icon-large" />,
+      icon: <MdDataObject className="icon-small md:icon-large" />,
       label: "Object Group",
       href: "/target-group",
     },
     {
-      icon: <TfiTarget className="icon-large" />,
+      icon: <TfiTarget className="icon-small md:icon-large" />,
       label: "Object",
       href: "/target",
     },
@@ -46,8 +48,22 @@ export default function NavigationList({}: {}) {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed top-20 left-0 h-full w-64 p-4 space-y-2 border-r-2 bg-white border-gray-200">
-      <ol className="space-y-2">
+    <nav
+      className="
+        fixed
+        bottom-0 md:top-20 left-0
+        w-full md:h-full md:w-64
+        p-2 md:p-4
+        bg-white border-r-2 border-gray-200
+      "
+    >
+      <ol
+        className="
+          flex md:block
+          space-x-1 md:space-y-2
+          justify-between md:justify-start
+        "
+      >
         {menuItems.map((menuItem) => (
           <li key={menuItem.label}>
             <NavigationItem
