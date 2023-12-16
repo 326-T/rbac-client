@@ -7,9 +7,7 @@ export default function Card({
 }) {
   return (
     <div
-      className={
-        "flex w-full p-5 rounded-lg bg-white shadow-md hover:shadow-lg"
-      }
+      className={"flex w-full p-3 rounded-lg bg-white hover:shadow-lg"}
       onClick={onClick}
     >
       {children}

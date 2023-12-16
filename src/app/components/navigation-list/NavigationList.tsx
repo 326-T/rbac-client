@@ -51,7 +51,7 @@ export default function NavigationList({}: {}) {
     <nav
       className="
         fixed
-        bottom-0 md:top-20 left-0
+        bottom-0 md:top-20 left-0 z-10
         w-full md:h-full md:w-64
         p-2 md:p-4
         bg-white border-r-2 border-gray-200

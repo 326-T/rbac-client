@@ -1,13 +1,15 @@
 "use client";
-import Card from "@/components/Card";
+import Card from "@/app/components/card/Card";
 import { Target } from "@/types/Target";
-import { useContext, useState } from "react";
+import { useContext, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { ModalContext } from "@/contexts/ModalProvider";
 import Confirmation from "@/components/modal/Confirmation";
 import OperationMenu from "@/components/OperationMenu";
 import { TextInput } from "@/components/TextInput";
 import DoneButton from "@/components/button/DoneButton";
+import { useEscapeKey } from "@/app/hooks/useEscapeKey";
+import { useClickOutSide } from "@/app/hooks/useClickOutSide";
 
 export default function TargetCard({
   target,
@@ -19,19 +21,22 @@ export default function TargetCard({
   const [edit, setEdit] = useState<boolean>(false);
   const [value, setValue] = useState<string>(target.objectIdRegex);
   const modalContext = useContext(ModalContext);
+  const modified = useMemo(() => value !== target.objectIdRegex, [value]);
+  const ref = useRef(null);
 
   const updateTarget = () => {
     edit &&
+      modified &&
       axios
         .put(`/rbac-service/v1/targets/${target.id}`, {
           objectIdRegex: value,
         })
-        .finally(fetchTargets);
-    setEdit(false);
+        .then(fetchTargets)
+        .finally(() => setEdit(false));
   };
 
   const deleteTarget = () => {
-    axios.delete(`/rbac-service/v1/targets/${target.id}`).finally(fetchTargets);
+    axios.delete(`/rbac-service/v1/targets/${target.id}`).then(fetchTargets);
   };
 
   const onDeleteClick = () => {
@@ -45,25 +50,29 @@ export default function TargetCard({
     );
     modalContext.turnOn();
   };
+  useClickOutSide(ref, () => setEdit(false));
+  useEscapeKey(() => setEdit(false));
 
   return (
-    <Card>
-      <div className="flex w-full items-center justify-between space-x-5">
-        <TextInput
-          value={value}
-          onChange={setValue}
-          disabled={!edit}
-          onEnter={updateTarget}
-        />
-        {edit ? (
-          <DoneButton onClick={updateTarget} />
-        ) : (
-          <OperationMenu
-            onEditClick={() => setEdit(true)}
-            onDeleteClick={onDeleteClick}
+    <div ref={ref}>
+      <Card>
+        <div className="flex w-full items-center justify-between space-x-5">
+          <TextInput
+            value={value}
+            onChange={setValue}
+            disabled={!edit}
+            onEnter={updateTarget}
           />
-        )}
-      </div>
-    </Card>
+          {edit ? (
+            <DoneButton onClick={updateTarget} disabled={modified} />
+          ) : (
+            <OperationMenu
+              onEditClick={() => setEdit(true)}
+              onDeleteClick={onDeleteClick}
+            />
+          )}
+        </div>
+      </Card>
+    </div>
   );
 }

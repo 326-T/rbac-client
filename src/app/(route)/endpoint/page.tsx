@@ -1,5 +1,5 @@
 "use client";
-import Card from "@/app/components/Card";
+import Card from "@/app/components/card/Card";
 import { Endpoint } from "@/app/types/Endpoint";
 import axios from "axios";
 import { useEffect, useState } from "react";
