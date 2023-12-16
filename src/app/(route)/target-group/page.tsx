@@ -1,35 +1,35 @@
-"use client";
-import AddCard from "@/app/components/card/AddCard";
-import Card from "@/app/components/card/Card";
-import { NamespaceContext } from "@/app/contexts/NamespaceProvider";
-import { TargetGroup } from "@/app/types/TargetGroup";
-import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+'use client'
+import axios from 'axios'
+import { useContext, useEffect, useState } from 'react'
+import AddCard from '@/app/components/card/AddCard'
+import Card from '@/app/components/card/Card'
+import { NamespaceContext } from '@/app/contexts/NamespaceProvider'
+import { TargetGroup } from '@/app/types/TargetGroup'
 
 export default function Page() {
-  const [targetGroups, setTargetGroups] = useState<TargetGroup[]>([]);
-  const namespaceContext = useContext(NamespaceContext);
+  const [targetGroups, setTargetGroups] = useState<TargetGroup[]>([])
+  const namespaceContext = useContext(NamespaceContext)
   const fetchTargetGroups = async () => {
-    await axios.get("/rbac-service/v1/target-groups").then((res) => {
-      setTargetGroups(res.data);
-    });
-  };
+    await axios.get('/rbac-service/v1/target-groups').then((res) => {
+      setTargetGroups(res.data)
+    })
+  }
 
   const createTargetGroup = async (name: string) => {
     axios
-      .post("/rbac-service/v1/target-groups", {
+      .post('/rbac-service/v1/target-groups', {
         namespaceId: namespaceContext.state.namespace.id,
         name: name,
       })
-      .then(fetchTargetGroups);
-  };
+      .then(fetchTargetGroups)
+  }
 
   useEffect(() => {
-    fetchTargetGroups();
-  }, []);
+    fetchTargetGroups()
+  }, [])
 
   return (
-    <ol className="space-y-2 w-full p-2">
+    <ol className='space-y-2 w-full p-2'>
       <AddCard post={createTargetGroup} />
       {targetGroups.map((targetGroup) => (
         <li key={targetGroup.id}>
@@ -37,5 +37,5 @@ export default function Page() {
         </li>
       ))}
     </ol>
-  );
+  )
 }

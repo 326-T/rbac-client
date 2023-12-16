@@ -1,36 +1,36 @@
-"use client";
-import { Path } from "@/app/types/Path";
-import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import PathCard from "./components/PathCard";
-import AddCard from "@/app/components/card/AddCard";
-import { NamespaceContext } from "@/app/contexts/NamespaceProvider";
+'use client'
+import axios from 'axios'
+import { useContext, useEffect, useState } from 'react'
+import PathCard from './components/PathCard'
+import AddCard from '@/app/components/card/AddCard'
+import { NamespaceContext } from '@/app/contexts/NamespaceProvider'
+import { Path } from '@/app/types/Path'
 
 export default function Page() {
-  const [paths, setPaths] = useState<Path[]>([]);
-  const namespaceContext = useContext(NamespaceContext);
+  const [paths, setPaths] = useState<Path[]>([])
+  const namespaceContext = useContext(NamespaceContext)
 
   const fetchPaths = async () => {
-    axios.get("/rbac-service/v1/paths").then((res) => {
-      setPaths(res.data);
-    });
-  };
+    axios.get('/rbac-service/v1/paths').then((res) => {
+      setPaths(res.data)
+    })
+  }
 
   const createPath = async (regex: string) => {
     axios
-      .post("/rbac-service/v1/paths", {
+      .post('/rbac-service/v1/paths', {
         namespaceId: namespaceContext.state.namespace.id,
         regex: regex,
       })
-      .then(fetchPaths);
-  };
+      .then(fetchPaths)
+  }
 
   useEffect(() => {
-    fetchPaths();
-  }, []);
+    fetchPaths()
+  }, [])
 
   return (
-    <ol className="space-y-2 w-full p-2">
+    <ol className='space-y-2 w-full p-2'>
       <AddCard post={createPath} />
       {paths.map((path) => (
         <li key={path.id}>
@@ -38,5 +38,5 @@ export default function Page() {
         </li>
       ))}
     </ol>
-  );
+  )
 }

@@ -1,20 +1,20 @@
-"use client";
-import { useClickOutSide } from "@/app/hooks/useClickOutSide";
-import { useRef } from "react";
+'use client'
+import { useRef } from 'react'
+import { useClickOutSide } from '@/app/hooks/useClickOutSide'
 
 export default function ModalCard({
   children,
   close,
 }: {
-  children: React.ReactNode;
-  close: () => void;
+  children: React.ReactNode
+  close: () => void
 }) {
-  const ref = useRef(null);
-  useClickOutSide(ref, close);
+  const ref = useRef(null)
+  useClickOutSide(ref, close)
 
   return (
-    <div ref={ref} className="p-5 bg-white rounded-lg">
+    <div ref={ref} className='p-5 bg-white rounded-lg'>
       {children}
     </div>
-  );
+  )
 }

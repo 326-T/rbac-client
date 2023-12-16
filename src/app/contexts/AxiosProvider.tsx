@@ -1,59 +1,55 @@
-"use client";
-import axios, { AxiosInstance } from "axios";
-import { createContext, useContext, useEffect, useState } from "react";
-import { LoadingContext } from "./LoadingProvider";
-import { MessageContext } from "./MessageProvider";
+'use client'
+import axios, { AxiosInstance } from 'axios'
+import { createContext, useContext, useEffect, useState } from 'react'
+import { LoadingContext } from './LoadingProvider'
+import { MessageContext } from './MessageProvider'
 
-export const AxiosContext = createContext<{}>({});
+export const AxiosContext = createContext<{}>({})
 
 export function AxiosProvider({ children }: { children: React.ReactNode }) {
-  const [isAxiosReady, setIsAxiosReady] = useState(false);
-  const loadingContext = useContext(LoadingContext);
-  const messageContext = useContext(MessageContext);
+  const [isAxiosReady, setIsAxiosReady] = useState(false)
+  const loadingContext = useContext(LoadingContext)
+  const messageContext = useContext(MessageContext)
 
   const setUpAxios = async () => {
-    const frontClient: AxiosInstance = axios.create();
+    const frontClient: AxiosInstance = axios.create()
     frontClient
-      .get("api/axios")
+      .get('api/axios')
       .then((res) => {
-        axios.defaults.baseURL = res.data.baseUrl;
-        axios.defaults.headers.common["Authorization"] = res.data.authorization;
-        axios.interceptors.request.clear();
+        axios.defaults.baseURL = res.data.baseUrl
+        axios.defaults.headers.common['Authorization'] = res.data.authorization
+        axios.interceptors.request.clear()
         axios.interceptors.request.use((config) => {
-          loadingContext.turnOn();
-          return config;
-        });
-        axios.interceptors.response.clear();
+          loadingContext.turnOn()
+          return config
+        })
+        axios.interceptors.response.clear()
         axios.interceptors.response.use(
           (response) => {
-            loadingContext.turnOff();
-            return response;
+            loadingContext.turnOff()
+            return response
           },
           (error) => {
-            loadingContext.turnOff();
+            loadingContext.turnOff()
             messageContext.pushMessage({
-              theme: "ERROR",
+              theme: 'ERROR',
               message:
                 error && error.response && error.response.data
                   ? error.response.data.message
-                  : "予期せぬエラーが発生しました。",
-            });
-            return Promise.reject(error);
-          }
-        );
+                  : '予期せぬエラーが発生しました。',
+            })
+            return Promise.reject(error)
+          },
+        )
       })
       .finally(() => {
-        setIsAxiosReady(true);
-      });
-  };
+        setIsAxiosReady(true)
+      })
+  }
 
   useEffect(() => {
-    !isAxiosReady && setUpAxios();
-  }, []);
+    !isAxiosReady && setUpAxios()
+  })
 
-  return (
-    <AxiosContext.Provider value={{}}>
-      {isAxiosReady && children}
-    </AxiosContext.Provider>
-  );
+  return <AxiosContext.Provider value={{}}>{isAxiosReady && children}</AxiosContext.Provider>
 }

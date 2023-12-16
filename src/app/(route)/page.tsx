@@ -1,5 +1,5 @@
-import UnderConstruction from "../components/molecules/UnderConstruction";
+import UnderConstruction from '@/components/UnderConstruction'
 
 export default function TopPage() {
-  return <UnderConstruction />;
+  return <UnderConstruction />
 }

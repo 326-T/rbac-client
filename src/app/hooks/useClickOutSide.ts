@@ -1,19 +1,16 @@
-import { useEffect } from "react";
+import { useEffect } from 'react'
 
-export const useClickOutSide = (
-  ref: React.RefObject<HTMLElement>,
-  callback: () => void
-) => {
-  const handleClick = (e: MouseEvent) => {
-    if (ref.current && !ref.current.contains(e.target as HTMLElement)) {
-      callback();
-    }
-  };
-
+export const useClickOutSide = (ref: React.RefObject<HTMLElement>, callback: () => void) => {
   useEffect(() => {
-    document.addEventListener("click", handleClick);
+    const handleClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as HTMLElement)) {
+        callback()
+      }
+    }
+
+    document.addEventListener('click', handleClick)
     return () => {
-      document.removeEventListener("click", handleClick);
-    };
-  }, [callback]);
-};
+      document.removeEventListener('click', handleClick)
+    }
+  })
+}

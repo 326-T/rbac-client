@@ -1,19 +1,15 @@
-import { FaCheck } from "react-icons/fa6";
+import { FaCheck } from 'react-icons/fa6'
 
 export default function DoneButton({
   onClick,
   disabled,
 }: {
-  onClick: () => void;
-  disabled: boolean;
+  onClick: () => void
+  disabled: boolean
 }) {
   return (
-    <button
-      onClick={onClick}
-      className="btn clickable-primary"
-      disabled={disabled}
-    >
+    <button onClick={onClick} className='btn clickable-primary' disabled={disabled}>
       <FaCheck />
     </button>
-  );
+  )
 }
