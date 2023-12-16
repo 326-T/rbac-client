@@ -1,7 +1,7 @@
 'use client'
 import { useContext } from 'react'
 import MessageCard from './MessageCard'
-import { MessageContext } from '@/app/contexts/MessageProvider'
+import { MessageContext } from '@/contexts/MessageProvider'
 
 export default function MessageStack() {
   const messageContext = useContext(MessageContext)

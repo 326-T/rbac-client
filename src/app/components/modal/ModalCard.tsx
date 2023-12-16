@@ -1,6 +1,6 @@
 'use client'
 import { useRef } from 'react'
-import { useClickOutSide } from '@/app/hooks/useClickOutSide'
+import { useClickOutSide } from '@/hooks/useClickOutSide'
 
 export default function ModalCard({
   children,

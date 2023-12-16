@@ -4,8 +4,8 @@ import { FiPlus } from 'react-icons/fi'
 import { TextInput } from '../TextInput'
 import DoneButton from '../button/DoneButton'
 import Card from './Card'
-import { useClickOutSide } from '@/app/hooks/useClickOutSide'
-import { useEscapeKey } from '@/app/hooks/useEscapeKey'
+import { useClickOutSide } from '@/hooks/useClickOutSide'
+import { useEscapeKey } from '@/hooks/useEscapeKey'
 
 export default function AddCard({ post }: { post: (value: string) => void }) {
   const [edit, setEdit] = useState<boolean>(false)

@@ -2,7 +2,7 @@
 import { useContext } from 'react'
 import { ModalContext } from '../../contexts/ModalProvider'
 import ModalCard from './ModalCard'
-import { useEscapeKey } from '@/app/hooks/useEscapeKey'
+import { useEscapeKey } from '@/hooks/useEscapeKey'
 
 export default function Modal() {
   const modalContext = useContext(ModalContext)

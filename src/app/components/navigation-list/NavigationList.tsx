@@ -5,7 +5,7 @@ import { GrGroup } from 'react-icons/gr'
 import { MdDataObject, MdOutlineAdminPanelSettings, MdAltRoute } from 'react-icons/md'
 import { TbAccessPoint } from 'react-icons/tb'
 import { TfiTarget } from 'react-icons/tfi'
-import NavigationItem from '@/app/components/navigation-list/NavigationItem'
+import NavigationItem from '@/components/navigation-list/NavigationItem'
 
 export default function NavigationList({}: {}) {
   const menuItems = [

@@ -1,8 +1,8 @@
 'use client'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import Card from '@/app/components/card/Card'
-import { Endpoint } from '@/app/types/Endpoint'
+import Card from '@/components/card/Card'
+import { Endpoint } from '@/types/Endpoint'
 
 export default function Page() {
   const [endpoints, setEndpoints] = useState<Endpoint[]>([])

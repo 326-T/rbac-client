@@ -1,9 +1,9 @@
 import MessageStack from '../components/message-stack/MessageStack'
 import Modal from '../components/modal/Modal'
-import DrawerRight from '@/app/components/DrawerRight'
-import Loading from '@/app/components/Loading'
-import AppHeader from '@/app/components/app-bar/AppHeader'
-import NavigationList from '@/app/components/navigation-list/NavigationList'
+import DrawerRight from '@/components/DrawerRight'
+import Loading from '@/components/Loading'
+import AppHeader from '@/components/app-bar/AppHeader'
+import NavigationList from '@/components/navigation-list/NavigationList'
 
 export default function DashBoardLayout({ children }: { children: React.ReactNode }) {
   return (

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEnterKey } from '@/app/hooks/useEnterKey'
+import { useEnterKey } from '@/hooks/useEnterKey'
 
 export default function Confirmation({ onClick }: { onClick: () => void }) {
   useEnterKey(onClick)

@@ -1,10 +1,10 @@
 'use client'
 import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
-import AddCard from '@/app/components/card/AddCard'
-import Card from '@/app/components/card/Card'
-import { NamespaceContext } from '@/app/contexts/NamespaceProvider'
-import { TargetGroup } from '@/app/types/TargetGroup'
+import AddCard from '@/components/card/AddCard'
+import Card from '@/components/card/Card'
+import { NamespaceContext } from '@/contexts/NamespaceProvider'
+import { TargetGroup } from '@/types/TargetGroup'
 
 export default function Page() {
   const [targetGroups, setTargetGroups] = useState<TargetGroup[]>([])

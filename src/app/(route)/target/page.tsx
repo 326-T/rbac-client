@@ -2,9 +2,9 @@
 import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import TargetCard from './components/TargetCard'
-import AddCard from '@/app/components/card/AddCard'
-import { NamespaceContext } from '@/app/contexts/NamespaceProvider'
-import { Target } from '@/app/types/Target'
+import AddCard from '@/components/card/AddCard'
+import { NamespaceContext } from '@/contexts/NamespaceProvider'
+import { Target } from '@/types/Target'
 
 export default function Page() {
   const [targets, setTargets] = useState<Target[]>([])

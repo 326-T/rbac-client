@@ -3,7 +3,7 @@ import { BsInfoCircleFill } from 'react-icons/bs'
 import { FaCheckCircle } from 'react-icons/fa'
 import { IoIosWarning } from 'react-icons/io'
 import { MdOutlineError } from 'react-icons/md'
-import { MessageContent } from '@/app/types/MessageContent'
+import { MessageContent } from '@/types/MessageContent'
 
 export default function MessageCard({ content, key }: { content: MessageContent; key?: string }) {
   const [cssAnimation, setCssAnimation] = useState<string>('animate-fade-in')

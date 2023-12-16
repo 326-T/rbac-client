@@ -2,9 +2,9 @@
 import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import PathCard from './components/PathCard'
-import AddCard from '@/app/components/card/AddCard'
-import { NamespaceContext } from '@/app/contexts/NamespaceProvider'
-import { Path } from '@/app/types/Path'
+import AddCard from '@/components/card/AddCard'
+import { NamespaceContext } from '@/contexts/NamespaceProvider'
+import { Path } from '@/types/Path'
 
 export default function Page() {
   const [paths, setPaths] = useState<Path[]>([])

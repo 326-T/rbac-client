@@ -1,10 +1,10 @@
 'use client'
 import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
-import AddCard from '@/app/components/card/AddCard'
-import Card from '@/app/components/card/Card'
-import { NamespaceContext } from '@/app/contexts/NamespaceProvider'
-import { Role } from '@/app/types/Role'
+import AddCard from '@/components/card/AddCard'
+import Card from '@/components/card/Card'
+import { NamespaceContext } from '@/contexts/NamespaceProvider'
+import { Role } from '@/types/Role'
 
 export default function Page() {
   const [roles, setRoles] = useState<Role[]>([])

@@ -1,7 +1,7 @@
 'use client'
 import { useContext } from 'react'
 import { useEscapeKey } from '../hooks/useEscapeKey'
-import { DrawerContext } from '@/app/contexts/DrawerProvider'
+import { DrawerContext } from '@/contexts/DrawerProvider'
 
 export default function DrawerRight() {
   const drawerContext = useContext(DrawerContext)
