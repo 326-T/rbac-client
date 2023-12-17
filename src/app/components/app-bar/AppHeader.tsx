@@ -1,5 +1,7 @@
 'use client'
 
+import NamespaceMenu from '../select/NamespaceMenu'
+
 export default function AppHeader({}: {}) {
   return (
     <header
@@ -14,6 +16,7 @@ export default function AppHeader({}: {}) {
         Role Based Access Control System
       </h1>
       <h1 className='ml-3 title-large block md:hidden text-primary-400'>RBAC</h1>
+      <NamespaceMenu />
     </header>
   )
 }

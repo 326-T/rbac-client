@@ -5,7 +5,7 @@ export default function DoneButton({
   disabled,
 }: {
   onClick: () => void
-  disabled: boolean
+  disabled?: boolean
 }) {
   return (
     <button onClick={onClick} className='btn clickable-primary' disabled={disabled}>

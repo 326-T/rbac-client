@@ -10,8 +10,8 @@ export default function Page() {
   const [userGroups, setUserGroups] = useState<UserGroup[]>([])
   const namespaceContext = useContext(NamespaceContext)
 
-  const fetchUserGroups = async () => {
-    await axios.get('/rbac-service/v1/user-groups').then((res) => {
+  const fetchUserGroups = async (namespaceId: number) => {
+    axios.get(`/rbac-service/v1/user-groups?namespace-id=${namespaceId}`).then((res) => {
       setUserGroups(res.data)
     })
   }
@@ -22,12 +22,12 @@ export default function Page() {
         namespaceId: namespaceContext.state.namespace.id,
         name: name,
       })
-      .then(fetchUserGroups)
+      .then(() => fetchUserGroups(namespaceContext.state.namespace.id))
   }
 
   useEffect(() => {
-    fetchUserGroups()
-  }, [])
+    fetchUserGroups(namespaceContext.state.namespace.id)
+  }, [namespaceContext.state.namespace.id])
 
   return (
     <ol className='space-y-2 w-full p-2'>

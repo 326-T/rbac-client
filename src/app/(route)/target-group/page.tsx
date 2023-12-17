@@ -9,8 +9,9 @@ import { TargetGroup } from '@/types/TargetGroup'
 export default function Page() {
   const [targetGroups, setTargetGroups] = useState<TargetGroup[]>([])
   const namespaceContext = useContext(NamespaceContext)
-  const fetchTargetGroups = async () => {
-    await axios.get('/rbac-service/v1/target-groups').then((res) => {
+
+  const fetchTargetGroups = async (namespaceId: number) => {
+    axios.get(`/rbac-service/v1/target-groups?namespace-id=${namespaceId}`).then((res) => {
       setTargetGroups(res.data)
     })
   }
@@ -21,12 +22,12 @@ export default function Page() {
         namespaceId: namespaceContext.state.namespace.id,
         name: name,
       })
-      .then(fetchTargetGroups)
+      .then(() => fetchTargetGroups(namespaceContext.state.namespace.id))
   }
 
   useEffect(() => {
-    fetchTargetGroups()
-  }, [])
+    fetchTargetGroups(namespaceContext.state.namespace.id)
+  }, [namespaceContext.state.namespace.id])
 
   return (
     <ol className='space-y-2 w-full p-2'>

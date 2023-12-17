@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function NavigationItem({
   icon,
   label,
@@ -10,7 +12,7 @@ export default function NavigationItem({
   selected?: boolean
 }) {
   return (
-    <a
+    <Link
       href={href}
       className={`
         flex items-center p-4 rounded-lg
@@ -20,6 +22,6 @@ export default function NavigationItem({
     >
       {icon}
       <h2 className='ml-4 title-medium hidden md:block'>{label}</h2>
-    </a>
+    </Link>
   )
 }

@@ -10,8 +10,8 @@ export default function Page() {
   const [paths, setPaths] = useState<Path[]>([])
   const namespaceContext = useContext(NamespaceContext)
 
-  const fetchPaths = async () => {
-    axios.get('/rbac-service/v1/paths').then((res) => {
+  const fetchPaths = async (namespaceId: number) => {
+    axios.get(`/rbac-service/v1/paths?namespace-id=${namespaceId}`).then((res) => {
       setPaths(res.data)
     })
   }
@@ -22,19 +22,22 @@ export default function Page() {
         namespaceId: namespaceContext.state.namespace.id,
         regex: regex,
       })
-      .then(fetchPaths)
+      .then(() => fetchPaths(namespaceContext.state.namespace.id))
   }
 
   useEffect(() => {
-    fetchPaths()
-  }, [])
+    fetchPaths(namespaceContext.state.namespace.id)
+  }, [namespaceContext.state.namespace.id])
 
   return (
     <ol className='space-y-2 w-full p-2'>
       <AddCard post={createPath} />
       {paths.map((path) => (
         <li key={path.id}>
-          <PathCard path={path} fetchPaths={fetchPaths} />
+          <PathCard
+            path={path}
+            fetchPaths={() => fetchPaths(namespaceContext.state.namespace.id)}
+          />
         </li>
       ))}
     </ol>

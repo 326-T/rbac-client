@@ -10,8 +10,8 @@ export default function Page() {
   const [targets, setTargets] = useState<Target[]>([])
   const namespaceContext = useContext(NamespaceContext)
 
-  const fetchTargets = async () => {
-    await axios.get('/rbac-service/v1/targets').then((res) => {
+  const fetchTargets = async (namespaceId: number) => {
+    axios.get(`/rbac-service/v1/targets?namespace-id=${namespaceId}`).then((res) => {
       setTargets(res.data)
     })
   }
@@ -22,19 +22,22 @@ export default function Page() {
         namespaceId: namespaceContext.state.namespace.id,
         objectIdRegex: regex,
       })
-      .then(fetchTargets)
+      .then(() => fetchTargets(namespaceContext.state.namespace.id))
   }
 
   useEffect(() => {
-    fetchTargets()
-  }, [])
+    fetchTargets(namespaceContext.state.namespace.id)
+  }, [namespaceContext.state.namespace.id])
 
   return (
     <ol className='space-y-2 w-full p-2'>
       <AddCard post={createTarget} />
       {targets.map((target) => (
         <li key={target.id}>
-          <TargetCard target={target} fetchTargets={fetchTargets} />
+          <TargetCard
+            target={target}
+            fetchTargets={() => fetchTargets(namespaceContext.state.namespace.id)}
+          />
         </li>
       ))}
     </ol>

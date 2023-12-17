@@ -1,14 +1,14 @@
 'use client'
 import axios from 'axios'
 import { useContext, useMemo, useRef, useState } from 'react'
-import Card from '@/components/card/Card'
-import { useClickOutSide } from '@/hooks/useClickOutSide'
-import { useEscapeKey } from '@/hooks/useEscapeKey'
-import OperationMenu from '@/components/OperationMenu'
 import { TextInput } from '@/components/TextInput'
 import DoneButton from '@/components/button/DoneButton'
+import Card from '@/components/card/Card'
 import Confirmation from '@/components/modal/Confirmation'
+import OperationMenu from '@/components/select/OperationMenu'
 import { ModalContext } from '@/contexts/ModalProvider'
+import { useClickOutSide } from '@/hooks/useClickOutSide'
+import { useEscapeKey } from '@/hooks/useEscapeKey'
 import { Path } from '@/types/Path'
 
 export default function PathCard({ path, fetchPaths }: { path: Path; fetchPaths: () => void }) {

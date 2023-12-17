@@ -10,8 +10,8 @@ export default function Page() {
   const [roles, setRoles] = useState<Role[]>([])
   const namespaceContext = useContext(NamespaceContext)
 
-  const fetchRoles = async () => {
-    await axios.get('/rbac-service/v1/roles').then((res) => {
+  const fetchRoles = async (namespaceId: number) => {
+    axios.get(`/rbac-service/v1/roles?namespace-id=${namespaceId}`).then((res) => {
       setRoles(res.data)
     })
   }
@@ -22,12 +22,12 @@ export default function Page() {
         namespaceId: namespaceContext.state.namespace.id,
         name: name,
       })
-      .then(fetchRoles)
+      .then(() => fetchRoles(namespaceContext.state.namespace.id))
   }
 
   useEffect(() => {
-    fetchRoles()
-  }, [])
+    fetchRoles(namespaceContext.state.namespace.id)
+  }, [namespaceContext.state.namespace.id])
 
   return (
     <ol className='space-y-2 w-full p-2'>
