@@ -53,7 +53,7 @@ export default function PathCard({ path, fetchPaths }: { path: Path; fetchPaths:
         <div className='flex w-full items-center justify-between space-x-5'>
           <TextInput value={value} onChange={setValue} disabled={!edit} onEnter={updatePath} />
           {edit ? (
-            <DoneButton onClick={updatePath} disabled={modified} />
+            <DoneButton onClick={updatePath} disabled={!modified} />
           ) : (
             <OperationMenu onEditClick={() => setEdit(true)} onDeleteClick={onDeleteClick} />
           )}

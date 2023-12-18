@@ -16,7 +16,14 @@ export default function AppHeader({}: {}) {
         Role Based Access Control System
       </h1>
       <h1 className='ml-3 title-large block md:hidden text-primary-400'>RBAC</h1>
-      <NamespaceMenu />
+      <div
+        className='
+          flex items-center
+          space-x-4
+        '
+      >
+        <NamespaceMenu />
+      </div>
     </header>
   )
 }

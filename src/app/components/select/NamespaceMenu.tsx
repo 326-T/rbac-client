@@ -7,6 +7,7 @@ import AddNamaespace from '../modal/AddNamespace'
 import { ModalContext } from '@/contexts/ModalProvider'
 import { NamespaceContext } from '@/contexts/NamespaceProvider'
 import { Namespace } from '@/types/Namespace'
+import Select from './Select'
 
 export default function NamespaceMenu({}: {}) {
   const [namespaces, setNamespaces] = useState<Namespace[]>([])
@@ -46,41 +47,40 @@ export default function NamespaceMenu({}: {}) {
   }, [])
 
   return (
-    <div className='dropdown dropdown-hover dropdown-end'>
-      <div tabIndex={0} role='button' className='btn'>
+    <Select
+      title={
         <div
           className='
-              flex items-center
-              space-x-2
-            '
+            flex items-center
+            space-x-2
+          '
         >
           <TbWorld className='icon-medium' />
           <h6 className='body-large'>{namespaceContext.state.namespace.name}</h6>
         </div>
-      </div>
-      <ul tabIndex={0} className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box'>
-        {namespaces.map((namespace) => (
-          <li key={namespace.id} onClick={() => namespaceContext.set(namespace)}>
-            <div
-              className='
-              flex items-center
-              space-x-2
-            '
-            >
-              <h6 className='body-large'>{namespace.name}</h6>
-            </div>
-          </li>
-        ))}
-        <li onClick={onAddClick}>
+      }
+      candidates={[
+        ...namespaces.map((namespace) => (
           <div
+            onClick={() => namespaceContext.set(namespace)}
             className='
+                flex items-center
+                space-x-2
+              '
+          >
+            <h6 className='body-large'>{namespace.name}</h6>
+          </div>
+        )),
+        <div
+          onClick={onAddClick}
+          className='
               flex items-center justify-center
             '
-          >
-            <FiPlus />
-          </div>
-        </li>
-      </ul>
-    </div>
+        >
+          <FiPlus />
+        </div>,
+      ]}
+      hover
+    />
   )
 }

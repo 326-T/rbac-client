@@ -59,7 +59,7 @@ export default function TargetCard({
         <div className='flex w-full items-center justify-between space-x-5'>
           <TextInput value={value} onChange={setValue} disabled={!edit} onEnter={updateTarget} />
           {edit ? (
-            <DoneButton onClick={updateTarget} disabled={modified} />
+            <DoneButton onClick={updateTarget} disabled={!modified} />
           ) : (
             <OperationMenu onEditClick={() => setEdit(true)} onDeleteClick={onDeleteClick} />
           )}
