@@ -2,9 +2,9 @@
 import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import AddCard from '@/components/card/AddCard'
-import Card from '@/components/card/Card'
 import { NamespaceContext } from '@/contexts/NamespaceProvider'
 import { TargetGroup } from '@/types/TargetGroup'
+import TargetGroupCard from './components/TargetGroupCard'
 
 export default function Page() {
   const [targetGroups, setTargetGroups] = useState<TargetGroup[]>([])
@@ -34,7 +34,10 @@ export default function Page() {
       <AddCard post={createTargetGroup} />
       {targetGroups.map((targetGroup) => (
         <li key={targetGroup.id}>
-          <Card key={targetGroup.id}>{targetGroup.name}</Card>
+          <TargetGroupCard
+            targetGroup={targetGroup}
+            fetchTargetGroups={() => fetchTargetGroups(namespaceContext.state.namespace.id)}
+          />
         </li>
       ))}
     </ol>

@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from 'react'
 import { TextInput } from '../TextInput'
-import DoneButton from '../button/DoneButton'
 import { useEnterKey } from '@/hooks/useEnterKey'
+import CustomButton from '../button/CustomButton'
 
 export default function AddNamaespace({ onEnter }: { onEnter: (value: string) => void }) {
   const [value, setValue] = useState<string>('')
@@ -25,7 +25,7 @@ export default function AddNamaespace({ onEnter }: { onEnter: (value: string) =>
       </div>
       <div className='w-full flex justify-center space-x-4'>
         <TextInput value={value} onChange={setValue} />
-        <DoneButton onClick={onEnterClick} disabled={disabled} />
+        <CustomButton theme='SAVE' onClick={onEnterClick} disabled={disabled} withoutText />
       </div>
     </div>
   )

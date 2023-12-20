@@ -2,7 +2,6 @@
 import axios from 'axios'
 import { useContext, useMemo, useRef, useState } from 'react'
 import { TextInput } from '@/components/TextInput'
-import DoneButton from '@/components/button/DoneButton'
 import Card from '@/components/card/Card'
 import Confirmation from '@/components/modal/Confirmation'
 import OperationMenu from '@/components/select/OperationMenu'
@@ -10,6 +9,7 @@ import { ModalContext } from '@/contexts/ModalProvider'
 import { useClickOutSide } from '@/hooks/useClickOutSide'
 import { useEscapeKey } from '@/hooks/useEscapeKey'
 import { Target } from '@/types/Target'
+import CustomButton from '@/components/button/CustomButton'
 
 export default function TargetCard({
   target,
@@ -59,7 +59,7 @@ export default function TargetCard({
         <div className='flex w-full items-center justify-between space-x-5'>
           <TextInput value={value} onChange={setValue} disabled={!edit} onEnter={updateTarget} />
           {edit ? (
-            <DoneButton onClick={updateTarget} disabled={!modified} />
+            <CustomButton theme='SAVE' onClick={updateTarget} disabled={!modified} />
           ) : (
             <OperationMenu onEditClick={() => setEdit(true)} onDeleteClick={onDeleteClick} />
           )}

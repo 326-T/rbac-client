@@ -13,8 +13,8 @@ export default function DrawerRight() {
         <>
           <div
             className='
-              fixed top-0 left-0
-              h-full w-6/12
+              fixed top-0 left-0 z-20
+              h-full w-1/5 md:w-6/12
               bg-gray-600
               opacity-50
             '
@@ -22,8 +22,8 @@ export default function DrawerRight() {
           ></div>
           <div
             className='
-              fixed top-0 right-0
-              h-full w-6/12
+              fixed top-0 right-0 z-[21]
+              h-full w-4/5 md:w-6/12
               p-4 border-l-2 bg-white border-gray-200
             '
           >

@@ -6,7 +6,7 @@ export default function AppHeader({}: {}) {
   return (
     <header
       className='
-        fixed top-0 left-0 z-50
+        fixed top-0 left-0 z-10
         flex h-20 w-full p-4
         items-center justify-between
         bg-white border-b-2 border-gray-200

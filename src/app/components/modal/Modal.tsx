@@ -14,14 +14,14 @@ export default function Modal() {
         <>
           <div
             className='
-            fixed top-0 left-0 z-30
+            fixed top-0 left-0 z-40
             w-full h-full
             opacity-50 bg-gray-600
           '
           />
           <div
             className='
-            fixed top-0 left-0 z-40
+            fixed top-0 left-0 z-[41]
             flex items-center
             w-full h-full
             justify-center 
