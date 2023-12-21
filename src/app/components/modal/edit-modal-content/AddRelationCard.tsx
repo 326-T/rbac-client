@@ -1,5 +1,5 @@
-import { Target } from '@/types/Target'
 import { FiPlus } from 'react-icons/fi'
+import { Target } from '@/types/Target'
 
 export default function AddRelationCard<T>({
   candidates,

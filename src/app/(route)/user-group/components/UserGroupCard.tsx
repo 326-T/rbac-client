@@ -1,19 +1,25 @@
 import axios from 'axios'
 import { useContext } from 'react'
-import RoleEditModalContent from './RoleEditModalContent'
+import UserGroupEditModalContent from './UserGroupEditModalContent'
 import Card from '@/components/card/Card'
 import Confirmation from '@/components/modal/Confirmation'
 import OperationMenu from '@/components/select/OperationMenu'
 import { DrawerContext } from '@/contexts/DrawerProvider'
 import { ModalContext } from '@/contexts/ModalProvider'
-import { Role } from '@/types/Role'
+import { UserGroup } from '@/types/UserGroup'
 
-export default function RoleCard({ role, fetchRoles }: { role: Role; fetchRoles: () => void }) {
+export default function UserGroupCard({
+  userGroup,
+  fetchUserGroups,
+}: {
+  userGroup: UserGroup
+  fetchUserGroups: () => void
+}) {
   const modalContext = useContext(ModalContext)
   const drawerContext = useContext(DrawerContext)
 
   const deleteTarget = () => {
-    axios.delete(`/rbac-service/v1/roles/${role.id}`).then(fetchRoles)
+    axios.delete(`/rbac-service/v1/user-groups/${userGroup.id}`).then(fetchUserGroups)
   }
 
   const onDeleteClick = () => {
@@ -29,14 +35,14 @@ export default function RoleCard({ role, fetchRoles }: { role: Role; fetchRoles:
   }
 
   const onEditClick = () => {
-    drawerContext.set(<RoleEditModalContent role={role} onClose={fetchRoles} />)
+    drawerContext.set(<UserGroupEditModalContent userGroup={userGroup} onClose={fetchUserGroups} />)
     drawerContext.turnOn()
   }
 
   return (
     <Card>
       <div className='flex w-full items-center justify-between space-x-5'>
-        <h5 className='body-medium'>{role.name}</h5>
+        <h5 className='body-medium'>{userGroup.name}</h5>
         <OperationMenu onEditClick={onEditClick} onDeleteClick={onDeleteClick} />
       </div>
     </Card>

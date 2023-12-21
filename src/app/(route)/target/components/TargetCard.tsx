@@ -2,6 +2,7 @@
 import axios from 'axios'
 import { useContext, useMemo, useRef, useState } from 'react'
 import { TextInput } from '@/components/TextInput'
+import CustomButton from '@/components/button/CustomButton'
 import Card from '@/components/card/Card'
 import Confirmation from '@/components/modal/Confirmation'
 import OperationMenu from '@/components/select/OperationMenu'
@@ -9,7 +10,6 @@ import { ModalContext } from '@/contexts/ModalProvider'
 import { useClickOutSide } from '@/hooks/useClickOutSide'
 import { useEscapeKey } from '@/hooks/useEscapeKey'
 import { Target } from '@/types/Target'
-import CustomButton from '@/components/button/CustomButton'
 
 export default function TargetCard({
   target,

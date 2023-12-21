@@ -1,6 +1,5 @@
-import { AiOutlineDelete } from 'react-icons/ai'
+import { AiOutlineDelete, AiOutlineSave } from 'react-icons/ai'
 import { FiEdit3 } from 'react-icons/fi'
-import { AiOutlineSave } from 'react-icons/ai'
 import { VscDiscard } from 'react-icons/vsc'
 
 const ButtonThemes = {

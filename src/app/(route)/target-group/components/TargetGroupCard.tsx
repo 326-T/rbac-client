@@ -1,12 +1,12 @@
+import axios from 'axios'
+import { useContext } from 'react'
+import TargetGroupEditModalContent from './TargetGroupEditModalContent'
 import Card from '@/components/card/Card'
 import Confirmation from '@/components/modal/Confirmation'
 import OperationMenu from '@/components/select/OperationMenu'
 import { DrawerContext } from '@/contexts/DrawerProvider'
 import { ModalContext } from '@/contexts/ModalProvider'
 import { TargetGroup } from '@/types/TargetGroup'
-import axios from 'axios'
-import { useContext } from 'react'
-import TargetGroupEditModalContent from './TargetGroupEditModalContent'
 
 export default function TargetGroupCard({
   targetGroup,

@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from 'react'
 import { TextInput } from '../TextInput'
-import { useEnterKey } from '@/hooks/useEnterKey'
 import CustomButton from '../button/CustomButton'
+import { useEnterKey } from '@/hooks/useEnterKey'
 
 export default function AddNamaespace({ onEnter }: { onEnter: (value: string) => void }) {
   const [value, setValue] = useState<string>('')

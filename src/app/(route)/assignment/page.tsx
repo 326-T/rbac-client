@@ -1,7 +1,7 @@
 'use client'
 import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
-import UserGroupCard from './components/UserGroupCard'
+import AssignmentCard from './components/AssignmentCard'
 import AddCard from '@/components/card/AddCard'
 import { NamespaceContext } from '@/contexts/NamespaceProvider'
 import { UserGroup } from '@/types/UserGroup'
@@ -34,7 +34,7 @@ export default function Page() {
       <AddCard post={createUserGroup} />
       {userGroups.map((userGroup) => (
         <li key={userGroup.id}>
-          <UserGroupCard
+          <AssignmentCard
             userGroup={userGroup}
             fetchUserGroups={() => fetchUserGroups(namespaceContext.state.namespace.id)}
           />

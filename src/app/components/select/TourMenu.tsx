@@ -1,5 +1,5 @@
-import Select from './Select'
 import { MdOutlineTour } from 'react-icons/md'
+import Select from './Select'
 
 export default function TourMenu({}: {}) {
   return (
@@ -15,7 +15,14 @@ export default function TourMenu({}: {}) {
           <h6 className='body-large'>Tour</h6>
         </div>
       }
-      candidates={[<h6 className='body-large'>OverAll</h6>, <h6 className='body-large'>Delete</h6>]}
+      candidates={[
+        <h6 key='overall' className='body-large'>
+          OverAll
+        </h6>,
+        <h6 key='delete' className='body-large'>
+          Delete
+        </h6>,
+      ]}
       hover
     />
   )

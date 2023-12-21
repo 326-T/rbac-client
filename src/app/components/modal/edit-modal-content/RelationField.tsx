@@ -1,7 +1,7 @@
-import Card from '@/components/card/Card'
-import { Target } from '@/types/Target'
 import AddRelationCard from './AddRelationCard'
 import CustomButton from '@/components/button/CustomButton'
+import Card from '@/components/card/Card'
+import { Target } from '@/types/Target'
 
 export default function RelationField<T>({
   remainingRelations,
@@ -30,6 +30,15 @@ export default function RelationField<T>({
       '
     >
       <ul className='flex flex-col space-y-3'>
+        {!disabled && candidates.length > 0 && (
+          <li key='add-text w-full'>
+            <AddRelationCard
+              candidates={candidates}
+              pushCandidate={onAddRelation}
+              getName={getName}
+            />
+          </li>
+        )}
         {remainingRelations.map((remaining) => (
           <li key={getName(remaining)}>
             <Card>
@@ -62,15 +71,6 @@ export default function RelationField<T>({
             </Card>
           </li>
         ))}
-        {!disabled && candidates.length > 0 && (
-          <li key='add-text w-full'>
-            <AddRelationCard
-              candidates={candidates}
-              pushCandidate={onAddRelation}
-              getName={getName}
-            />
-          </li>
-        )}
       </ul>
     </div>
   )

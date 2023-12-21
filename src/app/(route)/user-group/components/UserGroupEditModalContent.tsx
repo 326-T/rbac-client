@@ -8,30 +8,28 @@ import RelationField from '@/components/modal/edit-modal-content/RelationField'
 import TitleContent from '@/components/modal/edit-modal-content/TitleContent'
 import { DrawerContext } from '@/contexts/DrawerProvider'
 import { useRelationReducer } from '@/hooks/useRelationReducer'
-import { Endpoint } from '@/types/Endpoint'
-import { Role } from '@/types/Role'
+import { User } from '@/types/User'
+import { UserGroup } from '@/types/UserGroup'
 
-export default function RoleEditModalContent({
-  role,
+export default function UserGroupEditModalContent({
+  userGroup,
   onClose,
 }: {
-  role: Role
+  userGroup: UserGroup
   onClose?: () => void
 }) {
   const [edit, setEdit] = useState<boolean>(false)
-  const [roleName, setRoleName] = useState<string>(role.name)
-  const relationReducer = useRelationReducer<Endpoint>(
-    (one: Endpoint, another: Endpoint) => one.id === another.id,
+  const [userGroupName, setUserGroupName] = useState<string>(userGroup.name)
+  const relationReducer = useRelationReducer<User>(
+    (one: User, another: User) => one.id === another.id,
   )
   const drawerContext = useContext(DrawerContext)
 
-  const fetchDetail = async (role: Role) => {
-    axios
-      .get(`/rbac-service/v1/endpoints?namespace-id=${role.namespaceId}&role-id=${role.id}`)
-      .then((res) => {
-        relationReducer.setRelated(res.data)
-      })
-    axios.get(`/rbac-service/v1/endpoints?namespace-id=${role.namespaceId}`).then((res) => {
+  const fetchDetail = async (userGroup: UserGroup) => {
+    axios.get(`/rbac-service/v1/users?user-group-id=${userGroup.id}`).then((res) => {
+      relationReducer.setRelated(res.data)
+    })
+    axios.get('/rbac-service/v1/users').then((res) => {
       relationReducer.setAll(res.data)
     })
   }
@@ -39,20 +37,20 @@ export default function RoleEditModalContent({
   const onSaveClick = async () => {
     setEdit(false)
     Promise.all([
-      roleName !== role.name &&
-        axios.put(`/rbac-service/v1/roles/${role.id}`, {
-          name: roleName,
+      userGroupName !== userGroup.name &&
+        axios.put(`/rbac-service/v1/user-groups/${userGroup.id}`, {
+          name: userGroupName,
         }),
-      ...relationReducer.state.pending.map((endpoint: Endpoint) =>
-        axios.post('/rbac-service/v1/role-endpoint-permissions', {
-          namespaceId: role.namespaceId,
-          roleId: role.id,
-          endpointId: endpoint.id,
+      ...relationReducer.state.pending.map((user: User) =>
+        axios.post('/rbac-service/v1/user-group-belongings', {
+          namespaceId: userGroup.namespaceId,
+          userId: user.id,
+          userGroupId: userGroup.id,
         }),
       ),
-      ...relationReducer.state.removing.map((endpoint: Endpoint) =>
+      ...relationReducer.state.removing.map((user: User) =>
         axios.delete(
-          `/rbac-service/v1/role-endpoint-permissions?namespace-id=${role.namespaceId}&role-id=${role.id}&endpoint-id=${endpoint.id}`,
+          `/rbac-service/v1/user-group-belongings?namespace-id=${userGroup.namespaceId}&user-group-id=${userGroup.id}&user-id=${user.id}`,
         ),
       ),
     ]).finally(() => {
@@ -64,22 +62,22 @@ export default function RoleEditModalContent({
   const onDiscardClick = () => {
     setEdit(false)
     relationReducer.clear()
-    fetchDetail(role)
-    setRoleName(role.name)
+    fetchDetail(userGroup)
+    setUserGroupName(userGroup.name)
   }
 
   useEffect(() => {
-    fetchDetail(role)
+    fetchDetail(userGroup)
     return () => {
       onClose && onClose()
       relationReducer.clear()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [role])
+  }, [userGroup])
 
   return (
     <div className='flex flex-col h-full md:p-5'>
-      <TitleContent name={role.name} onBackClick={() => {}} onForwardClick={() => {}} />
+      <TitleContent name={userGroup.name} onBackClick={() => {}} onForwardClick={() => {}} />
       <div className='flex w-full justify-end mt-10 space-x-4'>
         {!edit ? (
           <CustomButton theme='EDIT' onClick={() => setEdit(true)} />
@@ -91,20 +89,25 @@ export default function RoleEditModalContent({
         )}
       </div>
       <div className='divider'></div>
-      <TextInput value={roleName} onChange={setRoleName} disabled={!edit} onEnter={() => {}} />
+      <TextInput
+        value={userGroupName}
+        onChange={setUserGroupName}
+        disabled={!edit}
+        onEnter={() => {}}
+      />
       <RelationField
         remainingRelations={relationReducer.remaining}
         candidates={relationReducer.candidates}
         pendingRelations={relationReducer.state.pending}
-        getName={(endpoint: Endpoint) => endpoint.method + ' ' + endpoint.pathId}
+        getName={(user: User) => user.name}
         onAddRelation={relationReducer.add}
         onDeleteRelation={relationReducer.remove}
         disabled={!edit}
       />
       <ProductionInfo
-        createdAt={role.createdAt}
-        updatedAt={role.updatedAt}
-        createdBy={role.createdBy}
+        createdAt={userGroup.createdAt}
+        updatedAt={userGroup.updatedAt}
+        createdBy={userGroup.createdBy}
       />
     </div>
   )

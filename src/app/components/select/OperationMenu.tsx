@@ -15,6 +15,7 @@ export default function OperationMenu({
       title={<IoIosMenu className='icon-medium' />}
       candidates={[
         <div
+          key='edit'
           onClick={onEditClick}
           className='
             flex items-center
@@ -25,6 +26,7 @@ export default function OperationMenu({
           <h6 className='body-large'>Edit</h6>
         </div>,
         <div
+          key='delete'
           onClick={onDeleteClick}
           className='
             flex items-center

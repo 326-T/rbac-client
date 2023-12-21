@@ -4,10 +4,10 @@ import { useContext, useEffect, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { TbWorld } from 'react-icons/tb'
 import AddNamaespace from '../modal/AddNamespace'
+import Select from './Select'
 import { ModalContext } from '@/contexts/ModalProvider'
 import { NamespaceContext } from '@/contexts/NamespaceProvider'
 import { Namespace } from '@/types/Namespace'
-import Select from './Select'
 
 export default function NamespaceMenu({}: {}) {
   const [namespaces, setNamespaces] = useState<Namespace[]>([])
@@ -62,6 +62,7 @@ export default function NamespaceMenu({}: {}) {
       candidates={[
         ...namespaces.map((namespace) => (
           <div
+            key={namespace.id}
             onClick={() => namespaceContext.set(namespace)}
             className='
                 flex items-center
@@ -72,6 +73,7 @@ export default function NamespaceMenu({}: {}) {
           </div>
         )),
         <div
+          key='add'
           onClick={onAddClick}
           className='
               flex items-center justify-center

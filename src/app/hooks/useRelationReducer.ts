@@ -55,14 +55,14 @@ export const useRelationReducer = <T>(equals: (one: T, another: T) => boolean) =
   const [state, dispatch] = useReducer(quereReducer<T>, stateInit)
   const remaining: T[] = useMemo(
     () => state.related.filter((item) => !state.removing.find((one) => equals(one, item))),
-    [state.related, state.removing],
+    [state.related, state.removing, equals],
   )
   const candidates: T[] = useMemo(
     () =>
       state.all
         .filter((item) => !state.pending.find((one) => equals(one, item)))
         .filter((item) => !remaining.find((one) => equals(one, item))),
-    [state.all, state.pending, remaining],
+    [state.all, state.pending, remaining, equals],
   )
 
   const clear = () => dispatch({ type: 'clear' })

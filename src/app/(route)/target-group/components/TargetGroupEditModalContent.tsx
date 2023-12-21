@@ -1,15 +1,15 @@
 'use client'
-import { Target } from '@/types/Target'
-import { TargetGroup } from '@/types/TargetGroup'
 import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import { TextInput } from '@/components/TextInput'
+import CustomButton from '@/components/button/CustomButton'
 import ProductionInfo from '@/components/modal/edit-modal-content/ProductionInfo'
 import RelationField from '@/components/modal/edit-modal-content/RelationField'
 import TitleContent from '@/components/modal/edit-modal-content/TitleContent'
-import CustomButton from '@/components/button/CustomButton'
-import { useRelationReducer } from '@/hooks/useRelationReducer'
 import { DrawerContext } from '@/contexts/DrawerProvider'
+import { useRelationReducer } from '@/hooks/useRelationReducer'
+import { Target } from '@/types/Target'
+import { TargetGroup } from '@/types/TargetGroup'
 
 export default function TargetGroupEditModalContent({
   targetGroup,
@@ -76,7 +76,8 @@ export default function TargetGroupEditModalContent({
       onClose && onClose()
       relationReducer.clear()
     }
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [targetGroup])
 
   return (
     <div className='flex flex-col h-full md:p-5'>

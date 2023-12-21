@@ -2,10 +2,10 @@
 import { useMemo, useRef, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { TextInput } from '../TextInput'
+import CustomButton from '../button/CustomButton'
 import Card from './Card'
 import { useClickOutSide } from '@/hooks/useClickOutSide'
 import { useEscapeKey } from '@/hooks/useEscapeKey'
-import CustomButton from '../button/CustomButton'
 
 export default function AddCard({ post }: { post: (value: string) => void }) {
   const [edit, setEdit] = useState<boolean>(false)
