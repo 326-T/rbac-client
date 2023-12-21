@@ -10,11 +10,14 @@ import { ModalContext } from '@/contexts/ModalProvider'
 import { useClickOutSide } from '@/hooks/useClickOutSide'
 import { useEscapeKey } from '@/hooks/useEscapeKey'
 import { Path } from '@/types/Path'
+import { DrawerContext } from '@/contexts/DrawerProvider'
+import PathDetailModalContent from './PathDetailModalContent'
 
 export default function PathCard({ path, fetchPaths }: { path: Path; fetchPaths: () => void }) {
   const [edit, setEdit] = useState<boolean>(false)
   const [value, setValue] = useState<string>(path.regex)
   const modalContext = useContext(ModalContext)
+  const drawerContext = useContext(DrawerContext)
   const modified = useMemo(() => value !== path.regex, [value, path.regex])
   const ref = useRef(null)
 
@@ -44,6 +47,12 @@ export default function PathCard({ path, fetchPaths }: { path: Path; fetchPaths:
     )
     modalContext.turnOn()
   }
+
+  const onDetailClick = () => {
+    drawerContext.set(<PathDetailModalContent path={path} />)
+    drawerContext.turnOn()
+  }
+
   useClickOutSide(ref, () => setEdit(false))
   useEscapeKey(() => setEdit(false))
 
@@ -55,7 +64,11 @@ export default function PathCard({ path, fetchPaths }: { path: Path; fetchPaths:
           {edit ? (
             <CustomButton theme='SAVE' onClick={updatePath} disabled={!modified} />
           ) : (
-            <OperationMenu onEditClick={() => setEdit(true)} onDeleteClick={onDeleteClick} />
+            <OperationMenu
+              onEditClick={() => setEdit(true)}
+              onDeleteClick={onDeleteClick}
+              onDetailClick={onDetailClick}
+            />
           )}
         </div>
       </Card>

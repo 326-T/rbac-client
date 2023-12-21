@@ -10,6 +10,8 @@ import { ModalContext } from '@/contexts/ModalProvider'
 import { useClickOutSide } from '@/hooks/useClickOutSide'
 import { useEscapeKey } from '@/hooks/useEscapeKey'
 import { Target } from '@/types/Target'
+import { DrawerContext } from '@/contexts/DrawerProvider'
+import TargetDetailModalContent from './TargetDetailModalContent'
 
 export default function TargetCard({
   target,
@@ -21,6 +23,7 @@ export default function TargetCard({
   const [edit, setEdit] = useState<boolean>(false)
   const [value, setValue] = useState<string>(target.objectIdRegex)
   const modalContext = useContext(ModalContext)
+  const drawerContext = useContext(DrawerContext)
   const modified = useMemo(() => value !== target.objectIdRegex, [value, target.objectIdRegex])
   const ref = useRef(null)
 
@@ -50,6 +53,12 @@ export default function TargetCard({
     )
     modalContext.turnOn()
   }
+
+  const onDetailClick = () => {
+    drawerContext.set(<TargetDetailModalContent target={target} />)
+    drawerContext.turnOn()
+  }
+
   useClickOutSide(ref, () => setEdit(false))
   useEscapeKey(() => setEdit(false))
 
@@ -61,7 +70,11 @@ export default function TargetCard({
           {edit ? (
             <CustomButton theme='SAVE' onClick={updateTarget} disabled={!modified} />
           ) : (
-            <OperationMenu onEditClick={() => setEdit(true)} onDeleteClick={onDeleteClick} />
+            <OperationMenu
+              onEditClick={() => setEdit(true)}
+              onDeleteClick={onDeleteClick}
+              onDetailClick={onDetailClick}
+            />
           )}
         </div>
       </Card>
