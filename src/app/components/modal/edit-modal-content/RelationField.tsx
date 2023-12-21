@@ -1,7 +1,6 @@
 import AddRelationCard from './AddRelationCard'
 import CustomButton from '@/components/button/CustomButton'
 import Card from '@/components/card/Card'
-import { Target } from '@/types/Target'
 
 export default function RelationField<T>({
   remainingRelations,
@@ -23,10 +22,10 @@ export default function RelationField<T>({
   return (
     <div
       className='
-        ml-10 mt-10 mb-10 p-5
-        border-2 rounded-box bg-gray-200
         flex-grow
         overflow-y-scroll
+        ml-10 mt-10 mb-10 p-5
+        border-2 rounded-box bg-gray-200
       '
     >
       <ul className='flex flex-col space-y-3'>

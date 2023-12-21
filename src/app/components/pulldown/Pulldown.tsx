@@ -1,4 +1,4 @@
-export default function Select({
+export default function Pulldown({
   title,
   candidates,
   hover,

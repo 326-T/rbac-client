@@ -1,7 +1,8 @@
 'use client'
 import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
-import Card from '@/components/card/Card'
+import AddEndpointCard from './components/AddEndpointCard'
+import EndpointCard from './components/EndpointCard'
 import { NamespaceContext } from '@/contexts/NamespaceProvider'
 import { Endpoint } from '@/types/Endpoint'
 
@@ -21,9 +22,13 @@ export default function Page() {
 
   return (
     <ol className='space-y-2 w-full p-2'>
+      <AddEndpointCard fetchEndpoints={() => fetchEndpoints(namespaceContext.state.namespace.id)} />
       {endpoints.map((endpoint) => (
         <li key={endpoint.id}>
-          <Card key={endpoint.id}>{endpoint.method}</Card>
+          <EndpointCard
+            endpoint={endpoint}
+            fetchEndpoints={() => fetchEndpoints(namespaceContext.state.namespace.id)}
+          />
         </li>
       ))}
     </ol>

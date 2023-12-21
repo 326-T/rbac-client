@@ -6,7 +6,7 @@ export default function Card({
   onClick?: () => void
 }) {
   return (
-    <div className={'flex w-full p-3 rounded-lg bg-white hover:shadow-lg'} onClick={onClick}>
+    <div className={'flex w-full px-5 py-3 rounded-lg bg-white hover:shadow-lg'} onClick={onClick}>
       {children}
     </div>
   )

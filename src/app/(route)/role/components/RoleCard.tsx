@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import RoleEditModalContent from './RoleEditModalContent'
 import Card from '@/components/card/Card'
 import Confirmation from '@/components/modal/Confirmation'
-import OperationMenu from '@/components/select/OperationMenu'
+import OperationMenu from '@/components/pulldown/OperationMenu'
 import { DrawerContext } from '@/contexts/DrawerProvider'
 import { ModalContext } from '@/contexts/ModalProvider'
 import { Role } from '@/types/Role'
@@ -28,7 +28,7 @@ export default function RoleCard({ role, fetchRoles }: { role: Role; fetchRoles:
     modalContext.turnOn()
   }
 
-  const onEditClick = () => {
+  const onDetailClick = () => {
     drawerContext.set(<RoleEditModalContent role={role} onClose={fetchRoles} />)
     drawerContext.turnOn()
   }
@@ -37,7 +37,7 @@ export default function RoleCard({ role, fetchRoles }: { role: Role; fetchRoles:
     <Card>
       <div className='flex w-full items-center justify-between space-x-5'>
         <h5 className='body-medium'>{role.name}</h5>
-        <OperationMenu onEditClick={onEditClick} onDeleteClick={onDeleteClick} />
+        <OperationMenu onDetailClick={onDetailClick} onDeleteClick={onDeleteClick} />
       </div>
     </Card>
   )

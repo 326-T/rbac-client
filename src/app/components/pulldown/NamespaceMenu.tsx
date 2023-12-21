@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { TbWorld } from 'react-icons/tb'
 import AddNamaespace from '../modal/AddNamespace'
-import Select from './Select'
+import Pulldown from './Pulldown'
 import { ModalContext } from '@/contexts/ModalProvider'
 import { NamespaceContext } from '@/contexts/NamespaceProvider'
 import { Namespace } from '@/types/Namespace'
@@ -47,7 +47,7 @@ export default function NamespaceMenu({}: {}) {
   }, [])
 
   return (
-    <Select
+    <Pulldown
       title={
         <div
           className='

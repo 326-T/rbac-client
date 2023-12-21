@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import UserGroupEditModalContent from './UserGroupEditModalContent'
 import Card from '@/components/card/Card'
 import Confirmation from '@/components/modal/Confirmation'
-import OperationMenu from '@/components/select/OperationMenu'
+import OperationMenu from '@/components/pulldown/OperationMenu'
 import { DrawerContext } from '@/contexts/DrawerProvider'
 import { ModalContext } from '@/contexts/ModalProvider'
 import { UserGroup } from '@/types/UserGroup'
@@ -34,7 +34,7 @@ export default function UserGroupCard({
     modalContext.turnOn()
   }
 
-  const onEditClick = () => {
+  const onDetailClick = () => {
     drawerContext.set(<UserGroupEditModalContent userGroup={userGroup} onClose={fetchUserGroups} />)
     drawerContext.turnOn()
   }
@@ -43,7 +43,7 @@ export default function UserGroupCard({
     <Card>
       <div className='flex w-full items-center justify-between space-x-5'>
         <h5 className='body-medium'>{userGroup.name}</h5>
-        <OperationMenu onEditClick={onEditClick} onDeleteClick={onDeleteClick} />
+        <OperationMenu onDetailClick={onDetailClick} onDeleteClick={onDeleteClick} />
       </div>
     </Card>
   )

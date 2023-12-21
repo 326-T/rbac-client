@@ -1,4 +1,5 @@
 import { AiOutlineDelete, AiOutlineSave } from 'react-icons/ai'
+import { BiDetail } from 'react-icons/bi'
 import { FiEdit3 } from 'react-icons/fi'
 import { VscDiscard } from 'react-icons/vsc'
 
@@ -23,6 +24,11 @@ const ButtonThemes = {
     icon: <AiOutlineDelete className='icon-small' />,
     css: 'clickable-warning',
   },
+  DETAIL: {
+    text: 'Detail',
+    icon: <BiDetail className='icon-small' />,
+    css: 'clickable-primary',
+  },
 }
 
 export type ButtonTheme = keyof typeof ButtonThemes
@@ -42,7 +48,8 @@ export default function CustomButton({
     <button
       className={`
         btn
-        ${ButtonThemes[theme].css}
+        ${disabled && 'disabled'}
+        ${!disabled && ButtonThemes[theme].css}
       `}
     >
       <div
