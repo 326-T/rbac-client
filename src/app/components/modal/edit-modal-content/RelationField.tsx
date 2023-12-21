@@ -3,19 +3,21 @@ import { Target } from '@/types/Target'
 import AddRelationCard from './AddRelationCard'
 import CustomButton from '@/components/button/CustomButton'
 
-export default function RelationField({
+export default function RelationField<T>({
   remainingRelations,
   pendingRelations,
   candidates,
+  getName,
   onAddRelation,
   onDeleteRelation,
   disabled,
 }: {
-  remainingRelations: Target[]
-  pendingRelations: Target[]
-  candidates: Target[]
-  onAddRelation: (target: Target) => void
-  onDeleteRelation: (target: Target) => void
+  remainingRelations: T[]
+  pendingRelations: T[]
+  candidates: T[]
+  getName: (target: T) => string
+  onAddRelation: (target: T) => void
+  onDeleteRelation: (target: T) => void
   disabled?: boolean
 }) {
   return (
@@ -29,10 +31,10 @@ export default function RelationField({
     >
       <ul className='flex flex-col space-y-3'>
         {remainingRelations.map((remaining) => (
-          <li key={remaining.id}>
+          <li key={getName(remaining)}>
             <Card>
               <div className='flex flex-row w-full items-center justify-between'>
-                <h4 className='body-large'>{remaining.objectIdRegex}</h4>
+                <h4 className='body-large'>{getName(remaining)}</h4>
                 {!disabled && (
                   <CustomButton
                     theme='DELETE'
@@ -45,10 +47,10 @@ export default function RelationField({
           </li>
         ))}
         {pendingRelations.map((pending) => (
-          <li key={pending.id}>
+          <li key={getName(pending)}>
             <Card>
               <div className='flex flex-row w-full items-center justify-between'>
-                <h4 className='body-large'>{pending.objectIdRegex}</h4>
+                <h4 className='body-large'>{getName(pending)}</h4>
                 {!disabled && (
                   <CustomButton
                     theme='DISCARD'
@@ -62,7 +64,11 @@ export default function RelationField({
         ))}
         {!disabled && candidates.length > 0 && (
           <li key='add-text w-full'>
-            <AddRelationCard candidates={candidates} pushCandidate={onAddRelation} />
+            <AddRelationCard
+              candidates={candidates}
+              pushCandidate={onAddRelation}
+              getName={getName}
+            />
           </li>
         )}
       </ul>

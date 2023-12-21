@@ -5,6 +5,7 @@ import AddCard from '@/components/card/AddCard'
 import Card from '@/components/card/Card'
 import { NamespaceContext } from '@/contexts/NamespaceProvider'
 import { Role } from '@/types/Role'
+import RoleCard from './components/RoleCard'
 
 export default function Page() {
   const [roles, setRoles] = useState<Role[]>([])
@@ -34,7 +35,10 @@ export default function Page() {
       <AddCard post={createRole} />
       {roles.map((role) => (
         <li key={role.id}>
-          <Card key={role.id}>{role.name}</Card>
+          <RoleCard
+            role={role}
+            fetchRoles={() => fetchRoles(namespaceContext.state.namespace.id)}
+          />
         </li>
       ))}
     </ol>

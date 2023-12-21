@@ -1,12 +1,14 @@
 import { Target } from '@/types/Target'
 import { FiPlus } from 'react-icons/fi'
 
-export default function AddRelationCard({
+export default function AddRelationCard<T>({
   candidates,
   pushCandidate,
+  getName,
 }: {
-  candidates: Target[]
-  pushCandidate: (target: Target) => void
+  candidates: T[]
+  pushCandidate: (target: T) => void
+  getName: (target: T) => string
 }) {
   return (
     <div
@@ -37,10 +39,10 @@ export default function AddRelationCard({
         '
       >
         <div className='max-h-64 overflow-y-scroll'>
-          {candidates.map((future: Target, index: number) => (
+          {candidates.map((candidate: T, index: number) => (
             <li key={index}>
-              <h5 onClick={() => pushCandidate(future)} className='body-large'>
-                {future.objectIdRegex}
+              <h5 onClick={() => pushCandidate(candidate)} className='body-large'>
+                {getName(candidate)}
               </h5>
             </li>
           ))}

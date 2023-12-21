@@ -1,6 +1,6 @@
 'use client'
-import { Target } from '@/types/Target'
-import { TargetGroup } from '@/types/TargetGroup'
+import { Endpoint } from '@/types/Endpoint'
+import { Role } from '@/types/Role'
 import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import { TextInput } from '@/components/TextInput'
@@ -11,29 +11,27 @@ import CustomButton from '@/components/button/CustomButton'
 import { useRelationReducer } from '@/hooks/useRelationReducer'
 import { DrawerContext } from '@/contexts/DrawerProvider'
 
-export default function TargetGroupEditModalContent({
-  targetGroup,
+export default function RoleEditModalContent({
+  role,
   onClose,
 }: {
-  targetGroup: TargetGroup
+  role: Role
   onClose?: () => void
 }) {
   const [edit, setEdit] = useState<boolean>(false)
-  const [targetGroupName, setTargetGroupName] = useState<string>(targetGroup.name)
-  const relationReducer = useRelationReducer<Target>(
-    (one: Target, another: Target) => one.id === another.id,
+  const [roleName, setRoleName] = useState<string>(role.name)
+  const relationReducer = useRelationReducer<Endpoint>(
+    (one: Endpoint, another: Endpoint) => one.id === another.id,
   )
   const drawerContext = useContext(DrawerContext)
 
-  const fetchDetail = async (targetGroup: TargetGroup) => {
+  const fetchDetail = async (role: Role) => {
     axios
-      .get(
-        `/rbac-service/v1/targets?namespace-id=${targetGroup.namespaceId}&target-group-id=${targetGroup.id}`,
-      )
+      .get(`/rbac-service/v1/endpoints?namespace-id=${role.namespaceId}&role-id=${role.id}`)
       .then((res) => {
         relationReducer.setRelated(res.data)
       })
-    axios.get(`/rbac-service/v1/targets?namespace-id=${targetGroup.namespaceId}`).then((res) => {
+    axios.get(`/rbac-service/v1/endpoints?namespace-id=${role.namespaceId}`).then((res) => {
       relationReducer.setAll(res.data)
     })
   }
@@ -41,20 +39,20 @@ export default function TargetGroupEditModalContent({
   const onSaveClick = async () => {
     setEdit(false)
     Promise.all([
-      targetGroupName !== targetGroup.name &&
-        axios.put(`/rbac-service/v1/target-groups/${targetGroup.id}`, {
-          name: targetGroupName,
+      roleName !== role.name &&
+        axios.put(`/rbac-service/v1/roles/${role.id}`, {
+          name: roleName,
         }),
-      ...relationReducer.state.pending.map((target: Target) =>
-        axios.post('/rbac-service/v1/target-group-belongings', {
-          namespaceId: targetGroup.namespaceId,
-          targetId: target.id,
-          targetGroupId: targetGroup.id,
+      ...relationReducer.state.pending.map((endpoint: Endpoint) =>
+        axios.post('/rbac-service/v1/role-endpoint-permissions', {
+          namespaceId: role.namespaceId,
+          roleId: role.id,
+          endpointId: endpoint.id,
         }),
       ),
-      ...relationReducer.state.removing.map((target: Target) =>
+      ...relationReducer.state.removing.map((endpoint: Endpoint) =>
         axios.delete(
-          `/rbac-service/v1/target-group-belongings?namespace-id=${targetGroup.namespaceId}&target-group-id=${targetGroup.id}&target-id=${target.id}`,
+          `/rbac-service/v1/role-endpoint-permissions?namespace-id=${role.namespaceId}&role-id=${role.id}&endpoint-id=${endpoint.id}`,
         ),
       ),
     ]).finally(() => {
@@ -66,12 +64,12 @@ export default function TargetGroupEditModalContent({
   const onDiscardClick = () => {
     setEdit(false)
     relationReducer.clear()
-    fetchDetail(targetGroup)
-    setTargetGroupName(targetGroup.name)
+    fetchDetail(role)
+    setRoleName(role.name)
   }
 
   useEffect(() => {
-    fetchDetail(targetGroup)
+    fetchDetail(role)
     return () => {
       onClose && onClose()
       relationReducer.clear()
@@ -80,7 +78,7 @@ export default function TargetGroupEditModalContent({
 
   return (
     <div className='flex flex-col h-full md:p-5'>
-      <TitleContent name={targetGroup.name} onBackClick={() => {}} onForwardClick={() => {}} />
+      <TitleContent name={role.name} onBackClick={() => {}} onForwardClick={() => {}} />
       <div className='flex w-full justify-end mt-10 space-x-4'>
         {!edit ? (
           <CustomButton theme='EDIT' onClick={() => setEdit(true)} />
@@ -92,25 +90,20 @@ export default function TargetGroupEditModalContent({
         )}
       </div>
       <div className='divider'></div>
-      <TextInput
-        value={targetGroupName}
-        onChange={setTargetGroupName}
-        disabled={!edit}
-        onEnter={() => {}}
-      />
+      <TextInput value={roleName} onChange={setRoleName} disabled={!edit} onEnter={() => {}} />
       <RelationField
         remainingRelations={relationReducer.remaining}
         candidates={relationReducer.candidates}
         pendingRelations={relationReducer.state.pending}
-        getName={(target: Target) => target.objectIdRegex}
+        getName={(endpoint: Endpoint) => endpoint.method + ' ' + endpoint.pathId}
         onAddRelation={relationReducer.add}
         onDeleteRelation={relationReducer.remove}
         disabled={!edit}
       />
       <ProductionInfo
-        createdAt={targetGroup.createdAt}
-        updatedAt={targetGroup.updatedAt}
-        createdBy={targetGroup.createdBy}
+        createdAt={role.createdAt}
+        updatedAt={role.updatedAt}
+        createdBy={role.createdBy}
       />
     </div>
   )
