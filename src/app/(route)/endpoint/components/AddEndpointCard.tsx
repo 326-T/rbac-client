@@ -28,7 +28,7 @@ export default function AddEndpointCard({ fetchEndpoints }: { fetchEndpoints: ()
     if (!blank) {
       axios
         .post('/rbac-service/v1/endpoints', {
-          namespaceId: namespaceContext.state.namespace.id,
+          namespaceId: namespaceContext.state.selected.id,
           method: method!.name,
           pathId: path!.id,
           targetGroupId: targetGroup!.id,
@@ -40,19 +40,19 @@ export default function AddEndpointCard({ fetchEndpoints }: { fetchEndpoints: ()
 
   useEffect(() => {
     axios
-      .get(`/rbac-service/v1/paths?namespace-id=${namespaceContext.state.namespace.id}`)
+      .get(`/rbac-service/v1/paths?namespace-id=${namespaceContext.state.selected.id}`)
       .then((res) => {
         setPaths(res.data)
       })
     axios
-      .get(`/rbac-service/v1/target-groups?namespace-id=${namespaceContext.state.namespace.id}`)
+      .get(`/rbac-service/v1/target-groups?namespace-id=${namespaceContext.state.selected.id}`)
       .then((res) => {
         setTargetGroups(res.data)
       })
     axios.get('/rbac-service/v1/methods').then((res) => {
       setMethods(res.data)
     })
-  }, [namespaceContext.state.namespace.id])
+  }, [namespaceContext.state.selected.id])
 
   useClickOutSide(ref, () => setEdit(false))
   useEscapeKey(() => setEdit(false))

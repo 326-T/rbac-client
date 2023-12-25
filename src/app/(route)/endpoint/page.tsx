@@ -17,17 +17,17 @@ export default function Page() {
   }
 
   useEffect(() => {
-    fetchEndpoints(namespaceContext.state.namespace.id)
-  }, [namespaceContext.state.namespace.id])
+    fetchEndpoints(namespaceContext.state.selected.id)
+  }, [namespaceContext.state.selected.id])
 
   return (
     <ol className='space-y-2 w-full p-2'>
-      <AddEndpointCard fetchEndpoints={() => fetchEndpoints(namespaceContext.state.namespace.id)} />
+      <AddEndpointCard fetchEndpoints={() => fetchEndpoints(namespaceContext.state.selected.id)} />
       {endpoints.map((endpoint) => (
         <li key={endpoint.id}>
           <EndpointCard
             endpoint={endpoint}
-            fetchEndpoints={() => fetchEndpoints(namespaceContext.state.namespace.id)}
+            fetchEndpoints={() => fetchEndpoints(namespaceContext.state.selected.id)}
           />
         </li>
       ))}

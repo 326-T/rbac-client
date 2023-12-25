@@ -12,11 +12,11 @@ export default function PermissionTable() {
 
   useEffect(() => {
     axios
-      .get(`/rbac-service/v1/access-privileges?namespace-id=${namespaceContext.state.namespace.id}`)
+      .get(`/rbac-service/v1/access-privileges?namespace-id=${namespaceContext.state.selected.id}`)
       .then((res) => {
         setAccessPrivileges(res.data)
       })
-  }, [namespaceContext.state.namespace.id])
+  }, [namespaceContext.state.selected.id])
 
   return (
     <Card>

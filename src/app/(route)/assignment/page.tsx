@@ -16,8 +16,8 @@ export default function Page() {
   }
 
   useEffect(() => {
-    fetchUserGroups(namespaceContext.state.namespace.id)
-  }, [namespaceContext.state.namespace.id])
+    fetchUserGroups(namespaceContext.state.selected.id)
+  }, [namespaceContext.state.selected.id])
 
   return (
     <ol className='space-y-2 w-full p-2'>
@@ -25,7 +25,7 @@ export default function Page() {
         <li key={userGroup.id}>
           <AssignmentCard
             userGroup={userGroup}
-            fetchUserGroups={() => fetchUserGroups(namespaceContext.state.namespace.id)}
+            fetchUserGroups={() => fetchUserGroups(namespaceContext.state.selected.id)}
           />
         </li>
       ))}

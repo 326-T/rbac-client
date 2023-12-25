@@ -1,6 +1,6 @@
 'use client'
 
-import NamespaceMenu from '../pulldown/NamespaceMenu'
+import NamespaceMenu from './NamespaceMenu'
 
 export default function AppHeader({}: {}) {
   return (

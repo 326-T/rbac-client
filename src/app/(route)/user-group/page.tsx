@@ -19,15 +19,15 @@ export default function Page() {
   const createUserGroup = async (name: string) => {
     axios
       .post('/rbac-service/v1/user-groups', {
-        namespaceId: namespaceContext.state.namespace.id,
+        namespaceId: namespaceContext.state.selected.id,
         name: name,
       })
-      .then(() => fetchUserGroups(namespaceContext.state.namespace.id))
+      .then(() => fetchUserGroups(namespaceContext.state.selected.id))
   }
 
   useEffect(() => {
-    fetchUserGroups(namespaceContext.state.namespace.id)
-  }, [namespaceContext.state.namespace.id])
+    fetchUserGroups(namespaceContext.state.selected.id)
+  }, [namespaceContext.state.selected.id])
 
   return (
     <ol className='space-y-2 w-full p-2'>
@@ -36,7 +36,7 @@ export default function Page() {
         <li key={userGroup.id}>
           <UserGroupCard
             userGroup={userGroup}
-            fetchUserGroups={() => fetchUserGroups(namespaceContext.state.namespace.id)}
+            fetchUserGroups={() => fetchUserGroups(namespaceContext.state.selected.id)}
           />
         </li>
       ))}

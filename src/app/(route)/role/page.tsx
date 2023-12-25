@@ -20,25 +20,22 @@ export default function Page() {
   const createRole = async (name: string) => {
     axios
       .post('/rbac-service/v1/roles', {
-        namespaceId: namespaceContext.state.namespace.id,
+        namespaceId: namespaceContext.state.selected.id,
         name: name,
       })
-      .then(() => fetchRoles(namespaceContext.state.namespace.id))
+      .then(() => fetchRoles(namespaceContext.state.selected.id))
   }
 
   useEffect(() => {
-    fetchRoles(namespaceContext.state.namespace.id)
-  }, [namespaceContext.state.namespace.id])
+    fetchRoles(namespaceContext.state.selected.id)
+  }, [namespaceContext.state.selected.id])
 
   return (
     <ol className='space-y-2 w-full p-2'>
       <AddCard post={createRole} />
       {roles.map((role) => (
         <li key={role.id}>
-          <RoleCard
-            role={role}
-            fetchRoles={() => fetchRoles(namespaceContext.state.namespace.id)}
-          />
+          <RoleCard role={role} fetchRoles={() => fetchRoles(namespaceContext.state.selected.id)} />
         </li>
       ))}
     </ol>

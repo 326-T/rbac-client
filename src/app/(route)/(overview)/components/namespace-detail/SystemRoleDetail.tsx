@@ -15,7 +15,7 @@ export default function SystemRoleDetail({ systemRole }: { systemRole: SystemRol
   }, [systemRole.id])
 
   return (
-    <div className='block w-full md:w-1/2 space-y-2'>
+    <div className='block space-y-2'>
       <h2 className='title-small text-primary-300'>
         {systemRole.permission === 'WRITE' ? '編集権限' : '参照権限'}
       </h2>

@@ -19,15 +19,15 @@ export default function Page() {
   const createTarget = async (regex: string) => {
     axios
       .post('/rbac-service/v1/targets', {
-        namespaceId: namespaceContext.state.namespace.id,
+        namespaceId: namespaceContext.state.selected.id,
         objectIdRegex: regex,
       })
-      .then(() => fetchTargets(namespaceContext.state.namespace.id))
+      .then(() => fetchTargets(namespaceContext.state.selected.id))
   }
 
   useEffect(() => {
-    fetchTargets(namespaceContext.state.namespace.id)
-  }, [namespaceContext.state.namespace.id])
+    fetchTargets(namespaceContext.state.selected.id)
+  }, [namespaceContext.state.selected.id])
 
   return (
     <ol className='space-y-2 w-full p-2'>
@@ -36,7 +36,7 @@ export default function Page() {
         <li key={target.id}>
           <TargetCard
             target={target}
-            fetchTargets={() => fetchTargets(namespaceContext.state.namespace.id)}
+            fetchTargets={() => fetchTargets(namespaceContext.state.selected.id)}
           />
         </li>
       ))}
