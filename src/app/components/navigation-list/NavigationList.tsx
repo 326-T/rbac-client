@@ -1,17 +1,22 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { BsGear, BsHouseGear } from 'react-icons/bs'
 import { GoShieldLock } from 'react-icons/go'
 import { GrGroup } from 'react-icons/gr'
 import { LiaUserShieldSolid } from 'react-icons/lia'
-import { MdDataObject, MdOutlineAdminPanelSettings, MdAltRoute } from 'react-icons/md'
+import { IoHomeOutline } from 'react-icons/io5'
+import { MdDataObject, MdAltRoute } from 'react-icons/md'
 import { TbAccessPoint } from 'react-icons/tb'
 import { TfiTarget } from 'react-icons/tfi'
 import NavigationItem from '@/components/navigation-list/NavigationItem'
 
 export default function NavigationList({}: {}) {
   const menuItems = [
+    {
+      icon: <IoHomeOutline className='icon-small md:icon-large' />,
+      label: 'Overview',
+      href: '/',
+    },
     {
       icon: <LiaUserShieldSolid className='icon-small md:icon-large' />,
       label: 'Assignment',
