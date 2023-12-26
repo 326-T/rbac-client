@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useContext } from 'react'
-import TargetGroupEditModalContent from './TargetGroupEditModalContent'
+import TargetGroupDrawerContent from './TargetGroupDrawerContent'
 import Card from '@/components/card/Card'
 import Confirmation from '@/components/modal/Confirmation'
 import OperationMenu from '@/components/pulldown/OperationMenu'
@@ -36,7 +36,7 @@ export default function TargetGroupCard({
 
   const onDetailClick = () => {
     drawerContext.set(
-      <TargetGroupEditModalContent targetGroup={targetGroup} onClose={fetchTargetGroups} />,
+      <TargetGroupDrawerContent targetGroup={targetGroup} onClose={fetchTargetGroups} />,
     )
     drawerContext.turnOn()
   }

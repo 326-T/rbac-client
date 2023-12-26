@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useContext } from 'react'
-import EndpointModalContent from './EndpointModalContent'
+import EndpointDrawerContent from './EndpointDrawerContent'
 import Card from '@/components/card/Card'
 import Confirmation from '@/components/modal/Confirmation'
 import OperationMenu from '@/components/pulldown/OperationMenu'
@@ -35,7 +35,7 @@ export default function EndpointCard({
   }
 
   const onDetailClick = () => {
-    drawerContext.set(<EndpointModalContent endpoint={endpoint} onClose={fetchEndpoints} />)
+    drawerContext.set(<EndpointDrawerContent endpoint={endpoint} onClose={fetchEndpoints} />)
     drawerContext.turnOn()
   }
 

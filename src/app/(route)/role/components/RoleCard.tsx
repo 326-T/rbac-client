@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useContext } from 'react'
-import RoleEditModalContent from './RoleEditModalContent'
+import RoleDrawerContent from './RoleDrawerContent'
 import Card from '@/components/card/Card'
 import Confirmation from '@/components/modal/Confirmation'
 import OperationMenu from '@/components/pulldown/OperationMenu'
@@ -29,7 +29,7 @@ export default function RoleCard({ role, fetchRoles }: { role: Role; fetchRoles:
   }
 
   const onDetailClick = () => {
-    drawerContext.set(<RoleEditModalContent role={role} onClose={fetchRoles} />)
+    drawerContext.set(<RoleDrawerContent role={role} onClose={fetchRoles} />)
     drawerContext.turnOn()
   }
 

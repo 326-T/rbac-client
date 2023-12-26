@@ -92,27 +92,37 @@ export default function TargetGroupEditModalContent({
           </>
         )}
       </div>
-      <div className='divider'></div>
-      <TextInput
-        value={targetGroupName}
-        onChange={setTargetGroupName}
-        disabled={!edit}
-        onEnter={() => {}}
-      />
-      <RelationField
-        remainingRelations={relationReducer.remaining}
-        candidates={relationReducer.candidates}
-        pendingRelations={relationReducer.state.pending}
-        getName={(target: Target) => target.objectIdRegex}
-        onAddRelation={relationReducer.add}
-        onDeleteRelation={relationReducer.remove}
-        disabled={!edit}
-      />
-      <ProductionInfo
-        createdAt={targetGroup.createdAt}
-        updatedAt={targetGroup.updatedAt}
-        createdBy={targetGroup.createdBy}
-      />
+      <div className='divider' />
+      <div
+        className='
+          flex flex-col flex-grow
+          space-y-5
+          overflow-y-scroll
+        '
+      >
+        <TextInput
+          value={targetGroupName}
+          onChange={setTargetGroupName}
+          disabled={!edit}
+          onEnter={() => {}}
+        />
+        <div className='flex-grow'>
+          <RelationField
+            remainingRelations={relationReducer.remaining}
+            candidates={relationReducer.candidates}
+            pendingRelations={relationReducer.state.pending}
+            getName={(target: Target) => target.objectIdRegex}
+            onAddRelation={relationReducer.add}
+            onDeleteRelation={relationReducer.remove}
+            disabled={!edit}
+          />
+        </div>
+        <ProductionInfo
+          createdAt={targetGroup.createdAt}
+          updatedAt={targetGroup.updatedAt}
+          createdBy={targetGroup.createdBy}
+        />
+      </div>
     </div>
   )
 }

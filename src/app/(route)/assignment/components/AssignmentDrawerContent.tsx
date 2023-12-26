@@ -10,7 +10,7 @@ import { useRelationReducer } from '@/hooks/useRelationReducer'
 import { Role } from '@/types/Role'
 import { UserGroup } from '@/types/UserGroup'
 
-export default function AssignmentModalContent({
+export default function AssignmentDrawerContent({
   userGroup,
   onClose,
 }: {
@@ -85,21 +85,30 @@ export default function AssignmentModalContent({
           </>
         )}
       </div>
-      <div className='divider'></div>
-      <RelationField
-        remainingRelations={relationReducer.remaining}
-        candidates={relationReducer.candidates}
-        pendingRelations={relationReducer.state.pending}
-        getName={(role: Role) => role.name}
-        onAddRelation={relationReducer.add}
-        onDeleteRelation={relationReducer.remove}
-        disabled={!edit}
-      />
-      <ProductionInfo
-        createdAt={userGroup.createdAt}
-        updatedAt={userGroup.updatedAt}
-        createdBy={userGroup.createdBy}
-      />
+      <div className='divider' />
+      <div
+        className='
+          flex flex-col flex-grow
+          overflow-y-scroll
+        '
+      >
+        <div className='flex-grow mb-5'>
+          <RelationField
+            remainingRelations={relationReducer.remaining}
+            candidates={relationReducer.candidates}
+            pendingRelations={relationReducer.state.pending}
+            getName={(role: Role) => role.name}
+            onAddRelation={relationReducer.add}
+            onDeleteRelation={relationReducer.remove}
+            disabled={!edit}
+          />
+        </div>
+        <ProductionInfo
+          createdAt={userGroup.createdAt}
+          updatedAt={userGroup.updatedAt}
+          createdBy={userGroup.createdBy}
+        />
+      </div>
     </div>
   )
 }

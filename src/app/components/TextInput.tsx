@@ -20,7 +20,7 @@ export function TextInput({
       onChange={(e) => onChange(e.target.value)}
       type='text'
       placeholder='Type here'
-      className='input input-bordered w-full'
+      className='input input-bordered w-full min-h-[48px]'
     />
   )
 }

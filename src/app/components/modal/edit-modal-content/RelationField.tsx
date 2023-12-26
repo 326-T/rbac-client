@@ -22,9 +22,7 @@ export default function RelationField<T>({
   return (
     <div
       className='
-        flex-grow
-        overflow-y-scroll
-        ml-10 mt-10 mb-10 p-5
+        p-5
         border-2 rounded-box bg-gray-200
       '
     >

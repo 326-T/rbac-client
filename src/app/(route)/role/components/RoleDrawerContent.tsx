@@ -90,22 +90,32 @@ export default function RoleEditModalContent({
           </>
         )}
       </div>
-      <div className='divider'></div>
-      <TextInput value={roleName} onChange={setRoleName} disabled={!edit} onEnter={() => {}} />
-      <RelationField
-        remainingRelations={relationReducer.remaining}
-        candidates={relationReducer.candidates}
-        pendingRelations={relationReducer.state.pending}
-        getName={(endpoint: Endpoint) => endpoint.method + ' ' + endpoint.pathId}
-        onAddRelation={relationReducer.add}
-        onDeleteRelation={relationReducer.remove}
-        disabled={!edit}
-      />
-      <ProductionInfo
-        createdAt={role.createdAt}
-        updatedAt={role.updatedAt}
-        createdBy={role.createdBy}
-      />
+      <div className='divider' />
+      <div
+        className='
+          flex flex-col flex-grow
+          space-y-5
+          overflow-y-scroll
+        '
+      >
+        <TextInput value={roleName} onChange={setRoleName} disabled={!edit} onEnter={() => {}} />
+        <div className='flex-grow'>
+          <RelationField
+            remainingRelations={relationReducer.remaining}
+            candidates={relationReducer.candidates}
+            pendingRelations={relationReducer.state.pending}
+            getName={(endpoint: Endpoint) => endpoint.method + ' ' + endpoint.pathId}
+            onAddRelation={relationReducer.add}
+            onDeleteRelation={relationReducer.remove}
+            disabled={!edit}
+          />
+        </div>
+        <ProductionInfo
+          createdAt={role.createdAt}
+          updatedAt={role.updatedAt}
+          createdBy={role.createdBy}
+        />
+      </div>
     </div>
   )
 }

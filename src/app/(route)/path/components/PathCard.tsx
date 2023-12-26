@@ -11,7 +11,7 @@ import { useClickOutSide } from '@/hooks/useClickOutSide'
 import { useEscapeKey } from '@/hooks/useEscapeKey'
 import { Path } from '@/types/Path'
 import { DrawerContext } from '@/contexts/DrawerProvider'
-import PathDetailModalContent from './PathDetailModalContent'
+import PathDrawerContent from './PathDrawerContent'
 
 export default function PathCard({ path, fetchPaths }: { path: Path; fetchPaths: () => void }) {
   const [edit, setEdit] = useState<boolean>(false)
@@ -49,7 +49,7 @@ export default function PathCard({ path, fetchPaths }: { path: Path; fetchPaths:
   }
 
   const onDetailClick = () => {
-    drawerContext.set(<PathDetailModalContent path={path} />)
+    drawerContext.set(<PathDrawerContent path={path} />)
     drawerContext.turnOn()
   }
 

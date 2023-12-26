@@ -1,6 +1,5 @@
 import { useContext } from 'react'
-import AssignmentModalContent from './AssignmentModalContent'
-import CustomButton from '@/components/button/CustomButton'
+import AssignmentDrawerContent from './AssignmentDrawerContent'
 import Card from '@/components/card/Card'
 import OperationMenu from '@/components/pulldown/OperationMenu'
 import { DrawerContext } from '@/contexts/DrawerProvider'
@@ -16,7 +15,7 @@ export default function AssignmentCard({
   const drawerContext = useContext(DrawerContext)
 
   const onDetailClick = () => {
-    drawerContext.set(<AssignmentModalContent userGroup={userGroup} onClose={fetchUserGroups} />)
+    drawerContext.set(<AssignmentDrawerContent userGroup={userGroup} onClose={fetchUserGroups} />)
     drawerContext.turnOn()
   }
 

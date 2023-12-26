@@ -8,18 +8,25 @@ import SystemRoleDetail from './SystemRoleDetail'
 import OperationMenu from '@/components/pulldown/OperationMenu'
 import { ModalContext } from '@/contexts/ModalProvider'
 import Confirmation from '@/components/modal/Confirmation'
+import { DrawerContext } from '@/contexts/DrawerProvider'
+import NamespaceEditModalContent from '../namespace-edit-modal/NamespaceEditModalContent'
 
 export default function NamespaceDetail() {
   const [systemRoles, setSystemRoles] = useState<SystemRole[]>([])
   const namespaceContext = useContext(NamespaceContext)
   const modalContext = useContext(ModalContext)
+  const drawerContext = useContext(DrawerContext)
 
-  useEffect(() => {
+  const fetchRoles = () => {
     axios
       .get(`/rbac-service/v1/system-roles?namespace-id=${namespaceContext.state.selected.id}`)
       .then((res) => {
         setSystemRoles(res.data)
       })
+  }
+
+  useEffect(() => {
+    fetchRoles()
   }, [namespaceContext.state.selected.id])
 
   const onDeleteClick = () => {
@@ -32,6 +39,19 @@ export default function NamespaceDetail() {
       />,
     )
     modalContext.turnOn()
+  }
+
+  const onDetailClick = () => {
+    drawerContext.set(
+      <NamespaceEditModalContent
+        namespace={namespaceContext.state.selected}
+        onClose={() => {
+          namespaceContext.fetch()
+          fetchRoles()
+        }}
+      />,
+    )
+    drawerContext.turnOn()
   }
 
   return (
@@ -47,7 +67,7 @@ export default function NamespaceDetail() {
           {systemRoles.map((systemRole) => (
             <SystemRoleDetail key={systemRole.id} systemRole={systemRole} />
           ))}
-          <OperationMenu onDetailClick={() => {}} onDeleteClick={onDeleteClick} />
+          <OperationMenu onDetailClick={onDetailClick} onDeleteClick={onDeleteClick} />
         </div>
       </div>
     </Card>

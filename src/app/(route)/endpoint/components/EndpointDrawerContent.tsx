@@ -1,9 +1,6 @@
 'use client'
-import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
-import CustomButton from '@/components/button/CustomButton'
 import ProductionInfo from '@/components/modal/edit-modal-content/ProductionInfo'
-import RelationField from '@/components/modal/edit-modal-content/RelationField'
 import TitleContent from '@/components/modal/edit-modal-content/TitleContent'
 import { DrawerContext } from '@/contexts/DrawerProvider'
 import { useRelationReducer } from '@/hooks/useRelationReducer'
@@ -38,27 +35,34 @@ export default function EndpointModalContent({
         onBackClick={() => {}}
         onForwardClick={() => {}}
       />
-      <div className='divider'></div>
-      <div className='flex-grow p-5'>
-        <div
-          className='
+      <div className='divider' />
+      <div
+        className='
+          flex flex-col flex-grow
+          overflow-y-scroll
+        '
+      >
+        <div className='flex-grow p-5'>
+          <div
+            className='
             w-fit grid grid-cols-2 gap-5
             body-large
           '
-        >
-          <h5>HTTP Method</h5>
-          <h5>{endpoint.method}</h5>
-          <h5>Path</h5>
-          <h5>{endpoint.pathRegex}</h5>
-          <h5>TargetGroup</h5>
-          <h5>{endpoint.targetGroupName}</h5>
+          >
+            <h5>HTTP Method</h5>
+            <h5>{endpoint.method}</h5>
+            <h5>Path</h5>
+            <h5>{endpoint.pathRegex}</h5>
+            <h5>TargetGroup</h5>
+            <h5>{endpoint.targetGroupName}</h5>
+          </div>
         </div>
+        <ProductionInfo
+          createdAt={endpoint.createdAt}
+          updatedAt={endpoint.updatedAt}
+          createdBy={endpoint.createdBy}
+        />
       </div>
-      <ProductionInfo
-        createdAt={endpoint.createdAt}
-        updatedAt={endpoint.updatedAt}
-        createdBy={endpoint.createdBy}
-      />
     </div>
   )
 }

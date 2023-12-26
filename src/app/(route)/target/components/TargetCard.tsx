@@ -11,7 +11,7 @@ import { useClickOutSide } from '@/hooks/useClickOutSide'
 import { useEscapeKey } from '@/hooks/useEscapeKey'
 import { Target } from '@/types/Target'
 import { DrawerContext } from '@/contexts/DrawerProvider'
-import TargetDetailModalContent from './TargetDetailModalContent'
+import TargetDrawerContent from './TargetDrawerContent'
 
 export default function TargetCard({
   target,
@@ -55,7 +55,7 @@ export default function TargetCard({
   }
 
   const onDetailClick = () => {
-    drawerContext.set(<TargetDetailModalContent target={target} />)
+    drawerContext.set(<TargetDrawerContent target={target} />)
     drawerContext.turnOn()
   }
 

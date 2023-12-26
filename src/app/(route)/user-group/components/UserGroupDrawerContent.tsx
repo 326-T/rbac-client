@@ -88,27 +88,37 @@ export default function UserGroupEditModalContent({
           </>
         )}
       </div>
-      <div className='divider'></div>
-      <TextInput
-        value={userGroupName}
-        onChange={setUserGroupName}
-        disabled={!edit}
-        onEnter={() => {}}
-      />
-      <RelationField
-        remainingRelations={relationReducer.remaining}
-        candidates={relationReducer.candidates}
-        pendingRelations={relationReducer.state.pending}
-        getName={(user: User) => user.name}
-        onAddRelation={relationReducer.add}
-        onDeleteRelation={relationReducer.remove}
-        disabled={!edit}
-      />
-      <ProductionInfo
-        createdAt={userGroup.createdAt}
-        updatedAt={userGroup.updatedAt}
-        createdBy={userGroup.createdBy}
-      />
+      <div className='divider' />
+      <div
+        className='
+          flex flex-col flex-grow
+          space-y-5
+          overflow-y-scroll
+        '
+      >
+        <TextInput
+          value={userGroupName}
+          onChange={setUserGroupName}
+          disabled={!edit}
+          onEnter={() => {}}
+        />
+        <div className='flex-grow'>
+          <RelationField
+            remainingRelations={relationReducer.remaining}
+            candidates={relationReducer.candidates}
+            pendingRelations={relationReducer.state.pending}
+            getName={(user: User) => user.name}
+            onAddRelation={relationReducer.add}
+            onDeleteRelation={relationReducer.remove}
+            disabled={!edit}
+          />
+        </div>
+        <ProductionInfo
+          createdAt={userGroup.createdAt}
+          updatedAt={userGroup.updatedAt}
+          createdBy={userGroup.createdBy}
+        />
+      </div>
     </div>
   )
 }
