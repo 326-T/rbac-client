@@ -9,7 +9,7 @@ import OperationMenu from '@/components/pulldown/OperationMenu'
 import { ModalContext } from '@/contexts/ModalProvider'
 import Confirmation from '@/components/modal/Confirmation'
 import { DrawerContext } from '@/contexts/DrawerProvider'
-import NamespaceEditModalContent from '../namespace-edit-modal/NamespaceEditModalContent'
+import NamespaceDrawerContent from '../namespace-drawer/NamespaceDrawerContent'
 
 export default function NamespaceDetail() {
   const [systemRoles, setSystemRoles] = useState<SystemRole[]>([])
@@ -43,7 +43,7 @@ export default function NamespaceDetail() {
 
   const onDetailClick = () => {
     drawerContext.set(
-      <NamespaceEditModalContent
+      <NamespaceDrawerContent
         namespace={namespaceContext.state.selected}
         onClose={() => {
           namespaceContext.fetch()

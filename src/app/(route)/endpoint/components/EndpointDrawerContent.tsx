@@ -39,24 +39,25 @@ export default function EndpointModalContent({
       <div
         className='
           flex flex-col flex-grow
+          space-y-5
           overflow-y-scroll
         '
       >
-        <div className='flex-grow p-5'>
-          <div
-            className='
+        <div
+          className='
             w-fit grid grid-cols-2 gap-5
+            p-5
             body-large
           '
-          >
-            <h5>HTTP Method</h5>
-            <h5>{endpoint.method}</h5>
-            <h5>Path</h5>
-            <h5>{endpoint.pathRegex}</h5>
-            <h5>TargetGroup</h5>
-            <h5>{endpoint.targetGroupName}</h5>
-          </div>
+        >
+          <h5>HTTP Method</h5>
+          <h5>{endpoint.method}</h5>
+          <h5>Path</h5>
+          <h5>{endpoint.pathRegex}</h5>
+          <h5>TargetGroup</h5>
+          <h5>{endpoint.targetGroupName}</h5>
         </div>
+        <div className='flex-grow' />
         <ProductionInfo
           createdAt={endpoint.createdAt}
           updatedAt={endpoint.updatedAt}

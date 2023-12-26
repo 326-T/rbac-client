@@ -4,15 +4,13 @@ import { useContext, useEffect, useState } from 'react'
 import { TextInput } from '@/components/TextInput'
 import CustomButton from '@/components/button/CustomButton'
 import ProductionInfo from '@/components/modal/edit-modal-content/ProductionInfo'
-import RelationField from '@/components/modal/edit-modal-content/RelationField'
 import TitleContent from '@/components/modal/edit-modal-content/TitleContent'
 import { DrawerContext } from '@/contexts/DrawerProvider'
 import { Namespace } from '@/types/Namespace'
-import { User } from '@/types/User'
 import { SystemRole } from '@/types/SystemRole'
 import PermissionField from './PermissionField'
 
-export default function NamespaceEditModalContent({
+export default function NamespaceDrawerContent({
   namespace,
   onClose,
 }: {
@@ -22,7 +20,7 @@ export default function NamespaceEditModalContent({
   const [edit, setEdit] = useState<boolean>(false)
   const [systemRoles, setSystemRoles] = useState<SystemRole[]>([])
   const [namespaceName, setNamespaceName] = useState<string>(namespace.name)
-
+  const [doSave, setDoSave] = useState<number>(0)
   const drawerContext = useContext(DrawerContext)
 
   const fetchRoles = (namespace: Namespace) => {
@@ -32,6 +30,7 @@ export default function NamespaceEditModalContent({
   }
 
   const onSaveClick = async () => {
+    setDoSave((prev) => prev + 1)
     setEdit(false)
     Promise.all([
       namespaceName !== namespace.name &&
@@ -44,6 +43,7 @@ export default function NamespaceEditModalContent({
   }
 
   const onDiscardClick = () => {
+    setDoSave(0)
     setEdit(false)
     fetchRoles(namespace)
     setNamespaceName(namespace.name)
@@ -71,20 +71,34 @@ export default function NamespaceEditModalContent({
         )}
       </div>
       <div className='divider' />
-      <TextInput
-        value={namespaceName}
-        onChange={setNamespaceName}
-        disabled={!edit}
-        onEnter={() => {}}
-      />
-      {systemRoles.map((systemRole) => (
-        <PermissionField systemRole={systemRole} edit={edit} />
-      ))}
-      <ProductionInfo
-        createdAt={namespace.createdAt}
-        updatedAt={namespace.updatedAt}
-        createdBy={namespace.createdBy}
-      />
+      <div
+        className='
+          flex flex-col flex-grow
+          space-y-5
+          overflow-y-scroll
+        '
+      >
+        <TextInput
+          value={namespaceName}
+          onChange={setNamespaceName}
+          disabled={!edit}
+          onEnter={() => {}}
+        />
+        {systemRoles.map((systemRole) => (
+          <PermissionField
+            key={systemRole.id.toString()}
+            systemRole={systemRole}
+            edit={edit}
+            doSave={doSave}
+          />
+        ))}
+        <div className='flex-grow' />
+        <ProductionInfo
+          createdAt={namespace.createdAt}
+          updatedAt={namespace.updatedAt}
+          createdBy={namespace.createdBy}
+        />
+      </div>
     </div>
   )
 }

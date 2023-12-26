@@ -89,20 +89,20 @@ export default function AssignmentDrawerContent({
       <div
         className='
           flex flex-col flex-grow
+          space-y-5
           overflow-y-scroll
         '
       >
-        <div className='flex-grow mb-5'>
-          <RelationField
-            remainingRelations={relationReducer.remaining}
-            candidates={relationReducer.candidates}
-            pendingRelations={relationReducer.state.pending}
-            getName={(role: Role) => role.name}
-            onAddRelation={relationReducer.add}
-            onDeleteRelation={relationReducer.remove}
-            disabled={!edit}
-          />
-        </div>
+        <RelationField
+          remainingRelations={relationReducer.remaining}
+          candidates={relationReducer.candidates}
+          pendingRelations={relationReducer.state.pending}
+          getName={(role: Role) => role.name}
+          onAddRelation={relationReducer.add}
+          onDeleteRelation={relationReducer.remove}
+          disabled={!edit}
+        />
+        <div className='flex-grow' />
         <ProductionInfo
           createdAt={userGroup.createdAt}
           updatedAt={userGroup.updatedAt}

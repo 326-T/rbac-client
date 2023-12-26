@@ -102,17 +102,16 @@ export default function UserGroupEditModalContent({
           disabled={!edit}
           onEnter={() => {}}
         />
-        <div className='flex-grow'>
-          <RelationField
-            remainingRelations={relationReducer.remaining}
-            candidates={relationReducer.candidates}
-            pendingRelations={relationReducer.state.pending}
-            getName={(user: User) => user.name}
-            onAddRelation={relationReducer.add}
-            onDeleteRelation={relationReducer.remove}
-            disabled={!edit}
-          />
-        </div>
+        <RelationField
+          remainingRelations={relationReducer.remaining}
+          candidates={relationReducer.candidates}
+          pendingRelations={relationReducer.state.pending}
+          getName={(user: User) => user.name}
+          onAddRelation={relationReducer.add}
+          onDeleteRelation={relationReducer.remove}
+          disabled={!edit}
+        />
+        <div className='flex-grow' />
         <ProductionInfo
           createdAt={userGroup.createdAt}
           updatedAt={userGroup.updatedAt}
