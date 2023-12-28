@@ -25,13 +25,11 @@ export default function AssignmentDrawerContent({
 
   const fetchDetail = async (userGroup: UserGroup) => {
     axios
-      .get(
-        `/rbac-service/v1/roles?namespace-id=${userGroup.namespaceId}&user-group-id=${userGroup.id}`,
-      )
+      .get(`/rbac-service/v1/${userGroup.namespaceId}/roles?user-group-id=${userGroup.id}`)
       .then((res) => {
         relationReducer.setRelated(res.data)
       })
-    axios.get(`/rbac-service/v1/roles?namespace-id=${userGroup.namespaceId}`).then((res) => {
+    axios.get(`/rbac-service/v1/${userGroup.namespaceId}/roles`).then((res) => {
       relationReducer.setAll(res.data)
     })
   }
@@ -40,15 +38,14 @@ export default function AssignmentDrawerContent({
     setEdit(false)
     Promise.all([
       ...relationReducer.state.pending.map((role: Role) =>
-        axios.post('/rbac-service/v1/group-role-assignments', {
-          namespaceId: userGroup.namespaceId,
+        axios.post(`/rbac-service/v1/${userGroup.namespaceId}/group-role-assignments`, {
           roleId: role.id,
           userGroupId: userGroup.id,
         }),
       ),
       ...relationReducer.state.removing.map((role: Role) =>
         axios.delete(
-          `/rbac-service/v1/group-role-assignments?namespace-id=${userGroup.namespaceId}&user-group-id=${userGroup.id}&role-id=${role.id}`,
+          `/rbac-service/v1/${userGroup.namespaceId}/group-role-assignments?user-group-id=${userGroup.id}&role-id=${role.id}`,
         ),
       ),
     ]).finally(() => {

@@ -12,22 +12,21 @@ export default function Page() {
   const namespaceContext = useContext(NamespaceContext)
 
   const fetchRoles = async (namespaceId: number) => {
-    axios.get(`/rbac-service/v1/roles?namespace-id=${namespaceId}`).then((res) => {
+    axios.get(`/rbac-service/v1/${namespaceId}/roles`).then((res) => {
       setRoles(res.data)
     })
   }
 
   const createRole = async (name: string) => {
     axios
-      .post('/rbac-service/v1/roles', {
-        namespaceId: namespaceContext.state.selected.id,
+      .post(`/rbac-service/v1/${namespaceContext.state.selected.id}/roles`, {
         name: name,
       })
       .then(() => fetchRoles(namespaceContext.state.selected.id))
   }
 
   useEffect(() => {
-    fetchRoles(namespaceContext.state.selected.id)
+    namespaceContext.state.selected.id && fetchRoles(namespaceContext.state.selected.id)
   }, [namespaceContext.state.selected.id])
 
   return (

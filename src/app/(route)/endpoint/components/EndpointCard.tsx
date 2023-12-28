@@ -7,6 +7,7 @@ import OperationMenu from '@/components/pulldown/OperationMenu'
 import { DrawerContext } from '@/contexts/DrawerProvider'
 import { ModalContext } from '@/contexts/ModalProvider'
 import { Endpoint } from '@/types/Endpoint'
+import { NamespaceContext } from '@/contexts/NamespaceProvider'
 
 export default function EndpointCard({
   endpoint,
@@ -16,10 +17,13 @@ export default function EndpointCard({
   fetchEndpoints: () => void
 }) {
   const modalContext = useContext(ModalContext)
+  const namespaceContext = useContext(NamespaceContext)
   const drawerContext = useContext(DrawerContext)
 
   const deleteTarget = () => {
-    axios.delete(`/rbac-service/v1/endpoints/${endpoint.id}`).then(fetchEndpoints)
+    axios
+      .delete(`/rbac-service/v1/${namespaceContext.state.selected.id}/endpoints/${endpoint.id}`)
+      .then(fetchEndpoints)
   }
 
   const onDeleteClick = () => {

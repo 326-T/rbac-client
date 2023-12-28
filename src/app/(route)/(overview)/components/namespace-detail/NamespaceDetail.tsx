@@ -18,15 +18,13 @@ export default function NamespaceDetail() {
   const drawerContext = useContext(DrawerContext)
 
   const fetchRoles = () => {
-    axios
-      .get(`/rbac-service/v1/system-roles?namespace-id=${namespaceContext.state.selected.id}`)
-      .then((res) => {
-        setSystemRoles(res.data)
-      })
+    axios.get(`/rbac-service/v1/${namespaceContext.state.selected.id}/system-roles`).then((res) => {
+      setSystemRoles(res.data)
+    })
   }
 
   useEffect(() => {
-    fetchRoles()
+    namespaceContext.state.selected.id && fetchRoles()
   }, [namespaceContext.state.selected.id])
 
   const onDeleteClick = () => {

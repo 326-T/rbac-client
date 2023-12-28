@@ -11,13 +11,13 @@ export default function Page() {
   const namespaceContext = useContext(NamespaceContext)
 
   const fetchEndpoints = async (namespaceId: number) => {
-    axios.get(`/rbac-service/v1/endpoints?namespace-id=${namespaceId}`).then((res) => {
+    axios.get(`/rbac-service/v1/${namespaceId}/endpoints`).then((res) => {
       setEndpoints(res.data)
     })
   }
 
   useEffect(() => {
-    fetchEndpoints(namespaceContext.state.selected.id)
+    namespaceContext.state.selected.id && fetchEndpoints(namespaceContext.state.selected.id)
   }, [namespaceContext.state.selected.id])
 
   return (

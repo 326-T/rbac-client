@@ -38,19 +38,18 @@ export default function UserGroupEditModalContent({
     setEdit(false)
     Promise.all([
       userGroupName !== userGroup.name &&
-        axios.put(`/rbac-service/v1/user-groups/${userGroup.id}`, {
+        axios.put(`/rbac-service/v1/${userGroup.namespaceId}/user-groups/${userGroup.id}`, {
           name: userGroupName,
         }),
       ...relationReducer.state.pending.map((user: User) =>
-        axios.post('/rbac-service/v1/user-group-belongings', {
-          namespaceId: userGroup.namespaceId,
+        axios.post(`/rbac-service/v1/${userGroup.namespaceId}/user-group-belongings`, {
           userId: user.id,
           userGroupId: userGroup.id,
         }),
       ),
       ...relationReducer.state.removing.map((user: User) =>
         axios.delete(
-          `/rbac-service/v1/user-group-belongings?namespace-id=${userGroup.namespaceId}&user-group-id=${userGroup.id}&user-id=${user.id}`,
+          `/rbac-service/v1/${userGroup.namespaceId}/user-group-belongings?user-group-id=${userGroup.id}&user-id=${user.id}`,
         ),
       ),
     ]).finally(() => {

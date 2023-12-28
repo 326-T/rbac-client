@@ -12,12 +12,14 @@ import { useEscapeKey } from '@/hooks/useEscapeKey'
 import { Path } from '@/types/Path'
 import { DrawerContext } from '@/contexts/DrawerProvider'
 import PathDrawerContent from './PathDrawerContent'
+import { NamespaceContext } from '@/contexts/NamespaceProvider'
 
 export default function PathCard({ path, fetchPaths }: { path: Path; fetchPaths: () => void }) {
   const [edit, setEdit] = useState<boolean>(false)
   const [value, setValue] = useState<string>(path.regex)
   const modalContext = useContext(ModalContext)
   const drawerContext = useContext(DrawerContext)
+  const namespaceContext = useContext(NamespaceContext)
   const modified = useMemo(() => value !== path.regex, [value, path.regex])
   const ref = useRef(null)
 
@@ -25,7 +27,7 @@ export default function PathCard({ path, fetchPaths }: { path: Path; fetchPaths:
     edit &&
       modified &&
       axios
-        .put(`/rbac-service/v1/paths/${path.id}`, {
+        .put(`/rbac-service/v1/${namespaceContext.state.selected.id}/paths/${path.id}`, {
           regex: value,
         })
         .then(fetchPaths)
@@ -33,7 +35,9 @@ export default function PathCard({ path, fetchPaths }: { path: Path; fetchPaths:
   }
 
   const deletePath = () => {
-    axios.delete(`/rbac-service/v1/paths/${path.id}`).then(fetchPaths)
+    axios
+      .delete(`/rbac-service/v1/${namespaceContext.state.selected.id}/paths/${path.id}`)
+      .then(fetchPaths)
   }
 
   const onDeleteClick = () => {

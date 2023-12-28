@@ -25,7 +25,7 @@ export default function NamespaceDrawerContent({
 
   const fetchRoles = (namespace: Namespace) => {
     axios
-      .get(`/rbac-service/v1/system-roles?namespace-id=${namespace.id}`)
+      .get(`/rbac-service/v1/${namespace.id}/system-roles`)
       .then((res) => setSystemRoles(res.data))
   }
 

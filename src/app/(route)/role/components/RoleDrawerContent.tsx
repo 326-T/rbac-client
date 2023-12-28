@@ -10,6 +10,7 @@ import { DrawerContext } from '@/contexts/DrawerProvider'
 import { useRelationReducer } from '@/hooks/useRelationReducer'
 import { Endpoint } from '@/types/Endpoint'
 import { Role } from '@/types/Role'
+import { NamespaceContext } from '@/contexts/NamespaceProvider'
 
 export default function RoleEditModalContent({
   role,
@@ -26,12 +27,10 @@ export default function RoleEditModalContent({
   const drawerContext = useContext(DrawerContext)
 
   const fetchDetail = async (role: Role) => {
-    axios
-      .get(`/rbac-service/v1/endpoints?namespace-id=${role.namespaceId}&role-id=${role.id}`)
-      .then((res) => {
-        relationReducer.setRelated(res.data)
-      })
-    axios.get(`/rbac-service/v1/endpoints?namespace-id=${role.namespaceId}`).then((res) => {
+    axios.get(`/rbac-service/v1/${role.namespaceId}/endpoints?role-id=${role.id}`).then((res) => {
+      relationReducer.setRelated(res.data)
+    })
+    axios.get(`/rbac-service/v1/${role.namespaceId}/endpoints`).then((res) => {
       relationReducer.setAll(res.data)
     })
   }
@@ -40,19 +39,18 @@ export default function RoleEditModalContent({
     setEdit(false)
     Promise.all([
       roleName !== role.name &&
-        axios.put(`/rbac-service/v1/roles/${role.id}`, {
+        axios.put(`/rbac-service/v1/${role.namespaceId}/roles/${role.id}`, {
           name: roleName,
         }),
       ...relationReducer.state.pending.map((endpoint: Endpoint) =>
-        axios.post('/rbac-service/v1/role-endpoint-permissions', {
-          namespaceId: role.namespaceId,
+        axios.post(`/rbac-service/v1/${role.namespaceId}/role-endpoint-permissions`, {
           roleId: role.id,
           endpointId: endpoint.id,
         }),
       ),
       ...relationReducer.state.removing.map((endpoint: Endpoint) =>
         axios.delete(
-          `/rbac-service/v1/role-endpoint-permissions?namespace-id=${role.namespaceId}&role-id=${role.id}&endpoint-id=${endpoint.id}`,
+          `/rbac-service/v1/${role.namespaceId}/role-endpoint-permissions?role-id=${role.id}&endpoint-id=${endpoint.id}`,
         ),
       ),
     ]).finally(() => {

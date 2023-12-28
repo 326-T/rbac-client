@@ -11,22 +11,21 @@ export default function Page() {
   const namespaceContext = useContext(NamespaceContext)
 
   const fetchTargets = async (namespaceId: number) => {
-    axios.get(`/rbac-service/v1/targets?namespace-id=${namespaceId}`).then((res) => {
+    axios.get(`/rbac-service/v1/${namespaceId}/targets`).then((res) => {
       setTargets(res.data)
     })
   }
 
   const createTarget = async (regex: string) => {
     axios
-      .post('/rbac-service/v1/targets', {
-        namespaceId: namespaceContext.state.selected.id,
+      .post(`/rbac-service/v1/${namespaceContext.state.selected.id}/targets`, {
         objectIdRegex: regex,
       })
       .then(() => fetchTargets(namespaceContext.state.selected.id))
   }
 
   useEffect(() => {
-    fetchTargets(namespaceContext.state.selected.id)
+    namespaceContext.state.selected.id && fetchTargets(namespaceContext.state.selected.id)
   }, [namespaceContext.state.selected.id])
 
   return (

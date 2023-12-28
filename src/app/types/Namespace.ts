@@ -7,8 +7,8 @@ export interface Namespace {
 }
 
 export const namespaceInit = {
-  id: 1,
-  name: 'develop',
+  id: 0,
+  name: '',
   createdBy: 0,
   createdAt: new Date(),
   updatedAt: new Date(),

@@ -19,7 +19,9 @@ export default function TargetGroupCard({
   const drawerContext = useContext(DrawerContext)
 
   const deleteTarget = () => {
-    axios.delete(`/rbac-service/v1/target-groups/${targetGroup.id}`).then(fetchTargetGroups)
+    axios
+      .delete(`/rbac-service/v1/${targetGroup.namespaceId}/target-groups/${targetGroup.id}`)
+      .then(fetchTargetGroups)
   }
 
   const onDeleteClick = () => {

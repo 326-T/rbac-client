@@ -7,13 +7,17 @@ import OperationMenu from '@/components/pulldown/OperationMenu'
 import { DrawerContext } from '@/contexts/DrawerProvider'
 import { ModalContext } from '@/contexts/ModalProvider'
 import { Role } from '@/types/Role'
+import { NamespaceContext } from '@/contexts/NamespaceProvider'
 
 export default function RoleCard({ role, fetchRoles }: { role: Role; fetchRoles: () => void }) {
   const modalContext = useContext(ModalContext)
   const drawerContext = useContext(DrawerContext)
+  const namespaceContext = useContext(NamespaceContext)
 
   const deleteTarget = () => {
-    axios.delete(`/rbac-service/v1/roles/${role.id}`).then(fetchRoles)
+    axios
+      .delete(`/rbac-service/v1/${namespaceContext.state.selected.id}/roles/${role.id}`)
+      .then(fetchRoles)
   }
 
   const onDeleteClick = () => {

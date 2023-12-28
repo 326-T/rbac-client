@@ -31,7 +31,7 @@ export default function TargetCard({
     edit &&
       modified &&
       axios
-        .put(`/rbac-service/v1/targets/${target.id}`, {
+        .put(`/rbac-service/v1/${target.namespaceId}/targets/${target.id}`, {
           objectIdRegex: value,
         })
         .then(fetchTargets)
@@ -39,7 +39,7 @@ export default function TargetCard({
   }
 
   const deleteTarget = () => {
-    axios.delete(`/rbac-service/v1/targets/${target.id}`).then(fetchTargets)
+    axios.delete(`/rbac-service/v1/${target.namespaceId}/targets/${target.id}`).then(fetchTargets)
   }
 
   const onDeleteClick = () => {

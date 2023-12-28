@@ -27,13 +27,11 @@ export default function TargetGroupEditModalContent({
 
   const fetchDetail = async (targetGroup: TargetGroup) => {
     axios
-      .get(
-        `/rbac-service/v1/targets?namespace-id=${targetGroup.namespaceId}&target-group-id=${targetGroup.id}`,
-      )
+      .get(`/rbac-service/v1/${targetGroup.namespaceId}/targets?target-group-id=${targetGroup.id}`)
       .then((res) => {
         relationReducer.setRelated(res.data)
       })
-    axios.get(`/rbac-service/v1/targets?namespace-id=${targetGroup.namespaceId}`).then((res) => {
+    axios.get(`/rbac-service/v1/${targetGroup.namespaceId}/targets`).then((res) => {
       relationReducer.setAll(res.data)
     })
   }
@@ -42,19 +40,18 @@ export default function TargetGroupEditModalContent({
     setEdit(false)
     Promise.all([
       targetGroupName !== targetGroup.name &&
-        axios.put(`/rbac-service/v1/target-groups/${targetGroup.id}`, {
+        axios.put(`/rbac-service/v1/${targetGroup.namespaceId}/target-groups/${targetGroup.id}`, {
           name: targetGroupName,
         }),
       ...relationReducer.state.pending.map((target: Target) =>
-        axios.post('/rbac-service/v1/target-group-belongings', {
-          namespaceId: targetGroup.namespaceId,
+        axios.post(`/rbac-service/v1/${targetGroup.namespaceId}/target-group-belongings`, {
           targetId: target.id,
           targetGroupId: targetGroup.id,
         }),
       ),
       ...relationReducer.state.removing.map((target: Target) =>
         axios.delete(
-          `/rbac-service/v1/target-group-belongings?namespace-id=${targetGroup.namespaceId}&target-group-id=${targetGroup.id}&target-id=${target.id}`,
+          `/rbac-service/v1/${targetGroup.namespaceId}/target-group-belongings?target-group-id=${targetGroup.id}&target-id=${target.id}`,
         ),
       ),
     ]).finally(() => {
