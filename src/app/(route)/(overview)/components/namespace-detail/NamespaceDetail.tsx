@@ -9,7 +9,7 @@ import { ModalContext } from '@/contexts/ModalProvider'
 import Confirmation from '@/components/modal/Confirmation'
 import { DrawerContext } from '@/contexts/DrawerProvider'
 import NamespaceDrawerContent from '../namespace-drawer/NamespaceDrawerContent'
-import { indexSystemRoles } from '../@/services/systemRole'
+import { indexSystemRoles } from '@/services/systemRole'
 
 export default function NamespaceDetail() {
   const [systemRoles, setSystemRoles] = useState<SystemRole[]>([])

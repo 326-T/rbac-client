@@ -2,7 +2,7 @@
 import { SystemRole } from '@/types/SystemRole'
 import { User } from '@/types/User'
 import { useEffect, useState } from 'react'
-import { findUsersBySystemRoleId } from '../@/services/user'
+import { findUsersBySystemRoleId } from '@/services/user'
 
 export default function SystemRoleDetail({ systemRole }: { systemRole: SystemRole }) {
   const [users, setUsers] = useState<User[]>([])

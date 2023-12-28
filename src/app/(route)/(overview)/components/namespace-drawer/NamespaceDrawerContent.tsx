@@ -8,8 +8,8 @@ import { DrawerContext } from '@/contexts/DrawerProvider'
 import { Namespace } from '@/types/Namespace'
 import { SystemRole } from '@/types/SystemRole'
 import PermissionField from './PermissionField'
-import { indexSystemRoles } from '../@/services/systemRole'
-import { updateNamespace } from '../@/services/namespace'
+import { indexSystemRoles } from '@/services/systemRole'
+import { updateNamespace } from '@/services/namespace'
 
 export default function NamespaceDrawerContent({
   namespace,
