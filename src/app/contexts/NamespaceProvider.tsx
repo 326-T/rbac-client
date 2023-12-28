@@ -2,6 +2,7 @@
 import { createContext, useEffect, useReducer } from 'react'
 import { Namespace, namespaceInit } from '../types/Namespace'
 import axios from 'axios'
+import { deleteNamespace, indexNamespace, insertNamespace } from '@/services/namespace'
 
 export interface NamespaceState {
   list: Namespace[]
@@ -68,17 +69,17 @@ export function NamespaceProvider({ children }: { children: React.ReactNode }) {
   }, [state.list, savedId])
 
   const fetch = async () => {
-    axios.get('/rbac-service/v1/namespaces').then((res) => {
+    indexNamespace().then((res) => {
       set(res.data)
     })
   }
 
   const post = async (name: string) => {
-    axios.post('/rbac-service/v1/namespaces', { name: name }).then(fetch)
+    insertNamespace(name).then(fetch)
   }
 
   const deleteSelected = async () => {
-    axios.delete(`/rbac-service/v1/namespaces/${state.selected.id}`).then(fetch)
+    deleteNamespace(state.selected.id).then(fetch)
   }
 
   return (

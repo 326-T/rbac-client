@@ -1,17 +1,17 @@
 'use client'
-import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import AddEndpointCard from './components/AddEndpointCard'
 import EndpointCard from './components/EndpointCard'
 import { NamespaceContext } from '@/contexts/NamespaceProvider'
 import { Endpoint } from '@/types/Endpoint'
+import { indexEndpoints } from '@/services/endpoint'
 
 export default function Page() {
   const [endpoints, setEndpoints] = useState<Endpoint[]>([])
   const namespaceContext = useContext(NamespaceContext)
 
   const fetchEndpoints = async (namespaceId: number) => {
-    axios.get(`/rbac-service/v1/${namespaceId}/endpoints`).then((res) => {
+    indexEndpoints(namespaceId).then((res) => {
       setEndpoints(res.data)
     })
   }

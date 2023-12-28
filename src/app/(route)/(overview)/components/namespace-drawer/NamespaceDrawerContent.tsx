@@ -1,5 +1,4 @@
 'use client'
-import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import { TextInput } from '@/components/TextInput'
 import CustomButton from '@/components/button/CustomButton'
@@ -9,6 +8,8 @@ import { DrawerContext } from '@/contexts/DrawerProvider'
 import { Namespace } from '@/types/Namespace'
 import { SystemRole } from '@/types/SystemRole'
 import PermissionField from './PermissionField'
+import { indexSystemRoles } from '../@/services/systemRole'
+import { updateNamespace } from '../@/services/namespace'
 
 export default function NamespaceDrawerContent({
   namespace,
@@ -24,19 +25,14 @@ export default function NamespaceDrawerContent({
   const drawerContext = useContext(DrawerContext)
 
   const fetchRoles = (namespace: Namespace) => {
-    axios
-      .get(`/rbac-service/v1/${namespace.id}/system-roles`)
-      .then((res) => setSystemRoles(res.data))
+    indexSystemRoles(namespace.id).then((res) => setSystemRoles(res.data))
   }
 
   const onSaveClick = async () => {
     setDoSave((prev) => prev + 1)
     setEdit(false)
     Promise.all([
-      namespaceName !== namespace.name &&
-        axios.put(`/rbac-service/v1/namespaces/${namespace.id}`, {
-          name: namespaceName,
-        }),
+      namespaceName !== namespace.name && updateNamespace(namespace.id, namespaceName),
     ]).finally(() => {
       drawerContext.turnOff()
     })

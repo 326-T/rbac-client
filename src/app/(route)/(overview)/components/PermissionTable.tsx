@@ -3,8 +3,8 @@ import SortedTable from '@/components/table/SortedTable'
 import Card from '@/components/card/Card'
 import { NamespaceContext } from '@/contexts/NamespaceProvider'
 import { AccessPrivilege } from '@/types/AccessPrivilege'
-import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
+import { indexAccessPrivileges } from '@/services/accessPrivilege'
 
 export default function PermissionTable() {
   const [accessPrivileges, setAccessPrivileges] = useState<AccessPrivilege[]>([])
@@ -12,11 +12,9 @@ export default function PermissionTable() {
 
   useEffect(() => {
     namespaceContext.state.selected.id &&
-      axios
-        .get(`/rbac-service/v1/${namespaceContext.state.selected.id}/access-privileges`)
-        .then((res) => {
-          setAccessPrivileges(res.data)
-        })
+      indexAccessPrivileges(namespaceContext.state.selected.id).then((res) => {
+        setAccessPrivileges(res.data)
+      })
   }, [namespaceContext.state.selected.id])
 
   return (

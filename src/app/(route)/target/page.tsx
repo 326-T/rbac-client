@@ -1,27 +1,25 @@
 'use client'
-import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import TargetCard from './components/TargetCard'
 import AddCard from '@/components/card/AddCard'
 import { NamespaceContext } from '@/contexts/NamespaceProvider'
 import { Target } from '@/types/Target'
+import { indexTargets, insertTarget } from '@/services/target'
 
 export default function Page() {
   const [targets, setTargets] = useState<Target[]>([])
   const namespaceContext = useContext(NamespaceContext)
 
   const fetchTargets = async (namespaceId: number) => {
-    axios.get(`/rbac-service/v1/${namespaceId}/targets`).then((res) => {
+    indexTargets(namespaceId).then((res) => {
       setTargets(res.data)
     })
   }
 
   const createTarget = async (regex: string) => {
-    axios
-      .post(`/rbac-service/v1/${namespaceContext.state.selected.id}/targets`, {
-        objectIdRegex: regex,
-      })
-      .then(() => fetchTargets(namespaceContext.state.selected.id))
+    insertTarget(namespaceContext.state.selected.id, regex).then(() =>
+      fetchTargets(namespaceContext.state.selected.id),
+    )
   }
 
   useEffect(() => {

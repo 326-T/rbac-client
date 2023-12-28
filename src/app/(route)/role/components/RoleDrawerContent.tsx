@@ -1,5 +1,4 @@
 'use client'
-import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import { TextInput } from '@/components/TextInput'
 import CustomButton from '@/components/button/CustomButton'
@@ -10,7 +9,12 @@ import { DrawerContext } from '@/contexts/DrawerProvider'
 import { useRelationReducer } from '@/hooks/useRelationReducer'
 import { Endpoint } from '@/types/Endpoint'
 import { Role } from '@/types/Role'
-import { NamespaceContext } from '@/contexts/NamespaceProvider'
+import { findEndpointsByRoleId, indexEndpoints } from '@/services/endpoint'
+import { updateRole } from '@/services/role'
+import {
+  deleteRoleEndpointPermission,
+  insertRoleEndpointPermission,
+} from '@/services/roleEndpointPermission'
 
 export default function RoleEditModalContent({
   role,
@@ -27,10 +31,10 @@ export default function RoleEditModalContent({
   const drawerContext = useContext(DrawerContext)
 
   const fetchDetail = async (role: Role) => {
-    axios.get(`/rbac-service/v1/${role.namespaceId}/endpoints?role-id=${role.id}`).then((res) => {
+    findEndpointsByRoleId(role.namespaceId, role.id).then((res) => {
       relationReducer.setRelated(res.data)
     })
-    axios.get(`/rbac-service/v1/${role.namespaceId}/endpoints`).then((res) => {
+    indexEndpoints(role.namespaceId).then((res) => {
       relationReducer.setAll(res.data)
     })
   }
@@ -38,20 +42,12 @@ export default function RoleEditModalContent({
   const onSaveClick = async () => {
     setEdit(false)
     Promise.all([
-      roleName !== role.name &&
-        axios.put(`/rbac-service/v1/${role.namespaceId}/roles/${role.id}`, {
-          name: roleName,
-        }),
+      roleName !== role.name && updateRole(role.namespaceId, role.id, roleName),
       ...relationReducer.state.pending.map((endpoint: Endpoint) =>
-        axios.post(`/rbac-service/v1/${role.namespaceId}/role-endpoint-permissions`, {
-          roleId: role.id,
-          endpointId: endpoint.id,
-        }),
+        insertRoleEndpointPermission(role.namespaceId, role.id, endpoint.id),
       ),
       ...relationReducer.state.removing.map((endpoint: Endpoint) =>
-        axios.delete(
-          `/rbac-service/v1/${role.namespaceId}/role-endpoint-permissions?role-id=${role.id}&endpoint-id=${endpoint.id}`,
-        ),
+        deleteRoleEndpointPermission(role.namespaceId, role.id, endpoint.id),
       ),
     ]).finally(() => {
       relationReducer.clear()

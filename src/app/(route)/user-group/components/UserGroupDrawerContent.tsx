@@ -1,5 +1,4 @@
 'use client'
-import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import { TextInput } from '@/components/TextInput'
 import CustomButton from '@/components/button/CustomButton'
@@ -10,6 +9,9 @@ import { DrawerContext } from '@/contexts/DrawerProvider'
 import { useRelationReducer } from '@/hooks/useRelationReducer'
 import { User } from '@/types/User'
 import { UserGroup } from '@/types/UserGroup'
+import { findUsersByUserGroupId, indexUsers } from '@/services/user'
+import { updateUserGroup } from '@/services/userGroup'
+import { deleteUserGroupBelonging, insertUserGroupBelonging } from '@/services/userGroupBelonging'
 
 export default function UserGroupEditModalContent({
   userGroup,
@@ -26,10 +28,10 @@ export default function UserGroupEditModalContent({
   const drawerContext = useContext(DrawerContext)
 
   const fetchDetail = async (userGroup: UserGroup) => {
-    axios.get(`/rbac-service/v1/users?user-group-id=${userGroup.id}`).then((res) => {
+    findUsersByUserGroupId(userGroup.id).then((res) => {
       relationReducer.setRelated(res.data)
     })
-    axios.get('/rbac-service/v1/users').then((res) => {
+    indexUsers().then((res) => {
       relationReducer.setAll(res.data)
     })
   }
@@ -38,19 +40,12 @@ export default function UserGroupEditModalContent({
     setEdit(false)
     Promise.all([
       userGroupName !== userGroup.name &&
-        axios.put(`/rbac-service/v1/${userGroup.namespaceId}/user-groups/${userGroup.id}`, {
-          name: userGroupName,
-        }),
+        updateUserGroup(userGroup.namespaceId, userGroup.id, userGroupName),
       ...relationReducer.state.pending.map((user: User) =>
-        axios.post(`/rbac-service/v1/${userGroup.namespaceId}/user-group-belongings`, {
-          userId: user.id,
-          userGroupId: userGroup.id,
-        }),
+        insertUserGroupBelonging(userGroup.namespaceId, user.id, userGroup.id),
       ),
       ...relationReducer.state.removing.map((user: User) =>
-        axios.delete(
-          `/rbac-service/v1/${userGroup.namespaceId}/user-group-belongings?user-group-id=${userGroup.id}&user-id=${user.id}`,
-        ),
+        deleteUserGroupBelonging(userGroup.namespaceId, user.id, userGroup.id),
       ),
     ]).finally(() => {
       relationReducer.clear()

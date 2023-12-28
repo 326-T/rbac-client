@@ -1,15 +1,15 @@
 'use client'
 import { SystemRole } from '@/types/SystemRole'
 import { User } from '@/types/User'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { findUsersBySystemRoleId } from '../@/services/user'
 
 export default function SystemRoleDetail({ systemRole }: { systemRole: SystemRole }) {
   const [users, setUsers] = useState<User[]>([])
 
   useEffect(() => {
     systemRole.id &&
-      axios.get(`/rbac-service/v1/users/system?system-role-id=${systemRole.id}`).then((res) => {
+      findUsersBySystemRoleId(systemRole.id).then((res) => {
         setUsers(res.data)
       })
   }, [systemRole.id])

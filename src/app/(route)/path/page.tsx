@@ -1,27 +1,25 @@
 'use client'
-import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import PathCard from './components/PathCard'
 import AddCard from '@/components/card/AddCard'
 import { NamespaceContext } from '@/contexts/NamespaceProvider'
 import { Path } from '@/types/Path'
+import { indexPaths, insertPath } from '@/services/path'
 
 export default function Page() {
   const [paths, setPaths] = useState<Path[]>([])
   const namespaceContext = useContext(NamespaceContext)
 
   const fetchPaths = async (namespaceId: number) => {
-    axios.get(`/rbac-service/v1/${namespaceId}/paths`).then((res) => {
+    indexPaths(namespaceId).then((res) => {
       setPaths(res.data)
     })
   }
 
   const createPath = async (regex: string) => {
-    axios
-      .post(`/rbac-service/v1/${namespaceContext.state.selected.id}/paths`, {
-        regex: regex,
-      })
-      .then(() => fetchPaths(namespaceContext.state.selected.id))
+    insertPath(namespaceContext.state.selected.id, regex).then(() =>
+      fetchPaths(namespaceContext.state.selected.id),
+    )
   }
 
   useEffect(() => {

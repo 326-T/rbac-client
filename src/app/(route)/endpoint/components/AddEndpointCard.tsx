@@ -1,5 +1,4 @@
 'use client'
-import axios from 'axios'
 import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import Select from '@/components/Select'
@@ -11,6 +10,10 @@ import { useEscapeKey } from '@/hooks/useEscapeKey'
 import { Method } from '@/types/Method'
 import { Path } from '@/types/Path'
 import { TargetGroup } from '@/types/TargetGroup'
+import { insertEndpoint } from '@/services/endpoint'
+import { indexMethods } from '@/services/method'
+import { indexPaths } from '@/services/path'
+import { indexTargetGroups } from '@/services/targetGroup'
 
 export default function AddEndpointCard({ fetchEndpoints }: { fetchEndpoints: () => void }) {
   const [edit, setEdit] = useState<boolean>(false)
@@ -26,12 +29,7 @@ export default function AddEndpointCard({ fetchEndpoints }: { fetchEndpoints: ()
 
   const onEnter = () => {
     if (!blank) {
-      axios
-        .post(`/rbac-service/v1/${namespaceContext.state.selected.id}/endpoints`, {
-          method: method!.name,
-          pathId: path!.id,
-          targetGroupId: targetGroup!.id,
-        })
+      insertEndpoint(namespaceContext.state.selected.id, method!.name, path!.id, targetGroup!.id)
         .then(fetchEndpoints)
         .finally(() => setEdit(false))
     }
@@ -39,15 +37,13 @@ export default function AddEndpointCard({ fetchEndpoints }: { fetchEndpoints: ()
 
   useEffect(() => {
     if (namespaceContext.state.selected.id) {
-      axios.get(`/rbac-service/v1/${namespaceContext.state.selected.id}/paths`).then((res) => {
+      indexPaths(namespaceContext.state.selected.id).then((res) => {
         setPaths(res.data)
       })
-      axios
-        .get(`/rbac-service/v1/${namespaceContext.state.selected.id}/target-groups`)
-        .then((res) => {
-          setTargetGroups(res.data)
-        })
-      axios.get('/rbac-service/v1/methods').then((res) => {
+      indexTargetGroups(namespaceContext.state.selected.id).then((res) => {
+        setTargetGroups(res.data)
+      })
+      indexMethods().then((res) => {
         setMethods(res.data)
       })
     }
