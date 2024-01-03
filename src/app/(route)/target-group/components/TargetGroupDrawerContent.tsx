@@ -45,10 +45,10 @@ export default function TargetGroupEditModalContent({
       targetGroupName !== targetGroup.name &&
         updateTargetGroup(targetGroup.namespaceId, targetGroup.id, targetGroupName),
       ...relationReducer.state.pending.map((target: Target) =>
-        insertTargetGroupBelonging(targetGroup.namespaceId, targetGroup.id, target.id),
+        insertTargetGroupBelonging(targetGroup.namespaceId, target.id, targetGroup.id),
       ),
       ...relationReducer.state.removing.map((target: Target) =>
-        deleteTargetGroupBelonging(targetGroup.namespaceId, targetGroup.id, target.id),
+        deleteTargetGroupBelonging(targetGroup.namespaceId, target.id, targetGroup.id),
       ),
     ]).finally(() => {
       relationReducer.clear()

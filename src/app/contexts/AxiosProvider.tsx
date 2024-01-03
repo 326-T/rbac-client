@@ -16,14 +16,14 @@ export function AxiosProvider({ children }: { children: React.ReactNode }) {
     frontClient
       .get('api/axios')
       .then((res) => {
+        axios.interceptors.request.clear()
+        axios.interceptors.response.clear()
         axios.defaults.baseURL = res.data.baseUrl
         axios.defaults.headers.common['Authorization'] = res.data.authorization
-        axios.interceptors.request.clear()
         axios.interceptors.request.use((config) => {
           loadingContext.turnOn()
           return config
         })
-        axios.interceptors.response.clear()
         axios.interceptors.response.use(
           (response) => {
             loadingContext.turnOff()
