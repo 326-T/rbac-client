@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { useContext } from 'react'
 import TargetGroupDrawerContent from './TargetGroupDrawerContent'
 import Card from '@/components/card/Card'
@@ -7,6 +6,7 @@ import OperationMenu from '@/components/pulldown/OperationMenu'
 import { DrawerContext } from '@/contexts/DrawerProvider'
 import { ModalContext } from '@/contexts/ModalProvider'
 import { TargetGroup } from '@/types/TargetGroup'
+import { deleteTargetGroup } from '@/services/targetGroup'
 
 export default function TargetGroupCard({
   targetGroup,
@@ -19,9 +19,7 @@ export default function TargetGroupCard({
   const drawerContext = useContext(DrawerContext)
 
   const deleteTarget = () => {
-    axios
-      .delete(`/rbac-service/v1/${targetGroup.namespaceId}/target-groups/${targetGroup.id}`)
-      .then(fetchTargetGroups)
+    deleteTargetGroup(targetGroup.namespaceId, targetGroup.id).then(fetchTargetGroups)
   }
 
   const onDeleteClick = () => {

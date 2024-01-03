@@ -1,4 +1,4 @@
-import { decodeDate } from '../../../utils/dateUtil'
+import { decodeDate } from '@/utils/dateUtil'
 
 export default function ProductionInfo({
   createdAt,

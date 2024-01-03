@@ -3,8 +3,12 @@ import { NamespaceContext } from '@/contexts/NamespaceProvider'
 import { useRelationReducer } from '@/hooks/useRelationReducer'
 import { SystemRole } from '@/types/SystemRole'
 import { User } from '@/types/User'
-import axios from 'axios'
 import { useContext, useEffect } from 'react'
+import { findUsersBySystemRoleId, indexUsers } from '@/services/user'
+import {
+  deleteUserSystemRolePermission,
+  insertUserSystemRolePermission,
+} from '@/services/userSystemRolePermission'
 
 export default function PermissionField({
   key,
@@ -25,18 +29,10 @@ export default function PermissionField({
   const onSaveClick = async () => {
     Promise.all([
       ...permissionReducer.state.pending.map((user: User) =>
-        axios.post(
-          `/rbac-service/v1/${namespaceContext.state.selected.id}/user-system-role-permissions`,
-          {
-            systemRoleId: systemRole.id,
-            userId: user.id,
-          },
-        ),
+        insertUserSystemRolePermission(namespaceContext.state.selected.id, systemRole.id, user.id),
       ),
       ...permissionReducer.state.removing.map((user: User) =>
-        axios.delete(
-          `/rbac-service/v1/${namespaceContext.state.selected.id}/user-system-role-permissions?system-role-id=${systemRole.id}&user-id=${user.id}`,
-        ),
+        deleteUserSystemRolePermission(namespaceContext.state.selected.id, systemRole.id, user.id),
       ),
     ]).finally(() => {
       permissionReducer.clear()
@@ -44,10 +40,10 @@ export default function PermissionField({
   }
 
   const fetchUsers = (role: SystemRole) => {
-    axios.get(`/rbac-service/v1/users/system?system-role-id=${role.id}`).then((res) => {
+    findUsersBySystemRoleId(role.id).then((res) => {
       permissionReducer.setRelated(res.data)
     })
-    axios.get('/rbac-service/v1/users').then((res) => {
+    indexUsers().then((res) => {
       permissionReducer.setAll(res.data)
     })
   }

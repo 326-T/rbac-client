@@ -1,16 +1,16 @@
 'use client'
-import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import AssignmentCard from './components/AssignmentCard'
 import { NamespaceContext } from '@/contexts/NamespaceProvider'
 import { UserGroup } from '@/types/UserGroup'
+import { indexUserGroups } from '../../services/userGroup'
 
 export default function Page() {
   const [userGroups, setUserGroups] = useState<UserGroup[]>([])
   const namespaceContext = useContext(NamespaceContext)
 
   const fetchUserGroups = async (namespaceId: number) => {
-    axios.get(`/rbac-service/v1/${namespaceId}/user-groups`).then((res) => {
+    indexUserGroups(namespaceId).then((res) => {
       setUserGroups(res.data)
     })
   }

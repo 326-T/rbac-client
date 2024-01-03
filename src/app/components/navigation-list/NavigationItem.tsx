@@ -15,7 +15,9 @@ export default function NavigationItem({
     <Link
       href={href}
       className={`
-        flex items-center p-4 rounded-lg
+        flex
+        items-center
+        p-4 rounded-lg
         cursor-pointer
         ${selected ? 'bg-primary-400 text-white' : 'clickable-primary'}
       `}

@@ -1,5 +1,4 @@
 'use client'
-import axios from 'axios'
 import { useContext, useMemo, useRef, useState } from 'react'
 import { TextInput } from '@/components/TextInput'
 import CustomButton from '@/components/button/CustomButton'
@@ -12,6 +11,7 @@ import { useEscapeKey } from '@/hooks/useEscapeKey'
 import { Target } from '@/types/Target'
 import { DrawerContext } from '@/contexts/DrawerProvider'
 import TargetDrawerContent from './TargetDrawerContent'
+import { deleteTarget, updateTarget } from '@/services/target'
 
 export default function TargetCard({
   target,
@@ -27,26 +27,19 @@ export default function TargetCard({
   const modified = useMemo(() => value !== target.objectIdRegex, [value, target.objectIdRegex])
   const ref = useRef(null)
 
-  const updateTarget = () => {
+  const onEnterClick = () => {
     edit &&
       modified &&
-      axios
-        .put(`/rbac-service/v1/${target.namespaceId}/targets/${target.id}`, {
-          objectIdRegex: value,
-        })
+      updateTarget(target.namespaceId, target.id, value)
         .then(fetchTargets)
         .finally(() => setEdit(false))
-  }
-
-  const deleteTarget = () => {
-    axios.delete(`/rbac-service/v1/${target.namespaceId}/targets/${target.id}`).then(fetchTargets)
   }
 
   const onDeleteClick = () => {
     modalContext.set(
       <Confirmation
         onClick={() => {
-          deleteTarget()
+          deleteTarget(target.namespaceId, target.id).then(fetchTargets)
           modalContext.turnOff()
         }}
       />,
@@ -66,9 +59,9 @@ export default function TargetCard({
     <div ref={ref}>
       <Card>
         <div className='flex w-full items-center justify-between space-x-5'>
-          <TextInput value={value} onChange={setValue} disabled={!edit} onEnter={updateTarget} />
+          <TextInput value={value} onChange={setValue} disabled={!edit} onEnter={onEnterClick} />
           {edit ? (
-            <CustomButton theme='SAVE' onClick={updateTarget} disabled={!modified} />
+            <CustomButton theme='SAVE' onClick={onEnterClick} disabled={!modified} />
           ) : (
             <OperationMenu
               onEditClick={() => setEdit(true)}

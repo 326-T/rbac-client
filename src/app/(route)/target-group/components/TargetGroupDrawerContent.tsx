@@ -1,5 +1,4 @@
 'use client'
-import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import { TextInput } from '@/components/TextInput'
 import CustomButton from '@/components/button/CustomButton'
@@ -10,6 +9,12 @@ import { DrawerContext } from '@/contexts/DrawerProvider'
 import { useRelationReducer } from '@/hooks/useRelationReducer'
 import { Target } from '@/types/Target'
 import { TargetGroup } from '@/types/TargetGroup'
+import { findTargetsByTargetGroupId, indexTargets } from '@/services/target'
+import { updateTargetGroup } from '@/services/targetGroup'
+import {
+  deleteTargetGroupBelonging,
+  insertTargetGroupBelonging,
+} from '@/services/targetGroupBelonging'
 
 export default function TargetGroupEditModalContent({
   targetGroup,
@@ -26,12 +31,10 @@ export default function TargetGroupEditModalContent({
   const drawerContext = useContext(DrawerContext)
 
   const fetchDetail = async (targetGroup: TargetGroup) => {
-    axios
-      .get(`/rbac-service/v1/${targetGroup.namespaceId}/targets?target-group-id=${targetGroup.id}`)
-      .then((res) => {
-        relationReducer.setRelated(res.data)
-      })
-    axios.get(`/rbac-service/v1/${targetGroup.namespaceId}/targets`).then((res) => {
+    findTargetsByTargetGroupId(targetGroup.namespaceId, targetGroup.id).then((res) => {
+      relationReducer.setRelated(res.data)
+    })
+    indexTargets(targetGroup.namespaceId).then((res) => {
       relationReducer.setAll(res.data)
     })
   }
@@ -40,19 +43,12 @@ export default function TargetGroupEditModalContent({
     setEdit(false)
     Promise.all([
       targetGroupName !== targetGroup.name &&
-        axios.put(`/rbac-service/v1/${targetGroup.namespaceId}/target-groups/${targetGroup.id}`, {
-          name: targetGroupName,
-        }),
+        updateTargetGroup(targetGroup.namespaceId, targetGroup.id, targetGroupName),
       ...relationReducer.state.pending.map((target: Target) =>
-        axios.post(`/rbac-service/v1/${targetGroup.namespaceId}/target-group-belongings`, {
-          targetId: target.id,
-          targetGroupId: targetGroup.id,
-        }),
+        insertTargetGroupBelonging(targetGroup.namespaceId, target.id, targetGroup.id),
       ),
       ...relationReducer.state.removing.map((target: Target) =>
-        axios.delete(
-          `/rbac-service/v1/${targetGroup.namespaceId}/target-group-belongings?target-group-id=${targetGroup.id}&target-id=${target.id}`,
-        ),
+        deleteTargetGroupBelonging(targetGroup.namespaceId, target.id, targetGroup.id),
       ),
     ]).finally(() => {
       relationReducer.clear()

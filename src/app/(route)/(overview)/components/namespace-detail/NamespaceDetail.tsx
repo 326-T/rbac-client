@@ -2,7 +2,6 @@
 import Card from '@/components/card/Card'
 import { NamespaceContext } from '@/contexts/NamespaceProvider'
 import { SystemRole } from '@/types/SystemRole'
-import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import SystemRoleDetail from './SystemRoleDetail'
 import OperationMenu from '@/components/pulldown/OperationMenu'
@@ -10,6 +9,7 @@ import { ModalContext } from '@/contexts/ModalProvider'
 import Confirmation from '@/components/modal/Confirmation'
 import { DrawerContext } from '@/contexts/DrawerProvider'
 import NamespaceDrawerContent from '../namespace-drawer/NamespaceDrawerContent'
+import { indexSystemRoles } from '@/services/systemRole'
 
 export default function NamespaceDetail() {
   const [systemRoles, setSystemRoles] = useState<SystemRole[]>([])
@@ -18,7 +18,7 @@ export default function NamespaceDetail() {
   const drawerContext = useContext(DrawerContext)
 
   const fetchRoles = () => {
-    axios.get(`/rbac-service/v1/${namespaceContext.state.selected.id}/system-roles`).then((res) => {
+    indexSystemRoles(namespaceContext.state.selected.id).then((res) => {
       setSystemRoles(res.data)
     })
   }

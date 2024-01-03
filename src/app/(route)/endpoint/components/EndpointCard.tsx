@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { useContext } from 'react'
 import EndpointDrawerContent from './EndpointDrawerContent'
 import Card from '@/components/card/Card'
@@ -8,6 +7,7 @@ import { DrawerContext } from '@/contexts/DrawerProvider'
 import { ModalContext } from '@/contexts/ModalProvider'
 import { Endpoint } from '@/types/Endpoint'
 import { NamespaceContext } from '@/contexts/NamespaceProvider'
+import { deleteEndpoint } from '@/services/endpoint'
 
 export default function EndpointCard({
   endpoint,
@@ -21,9 +21,7 @@ export default function EndpointCard({
   const drawerContext = useContext(DrawerContext)
 
   const deleteTarget = () => {
-    axios
-      .delete(`/rbac-service/v1/${namespaceContext.state.selected.id}/endpoints/${endpoint.id}`)
-      .then(fetchEndpoints)
+    deleteEndpoint(namespaceContext.state.selected.id, endpoint.id).then(fetchEndpoints)
   }
 
   const onDeleteClick = () => {

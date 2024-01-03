@@ -1,28 +1,25 @@
 'use client'
-import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import RoleCard from './components/RoleCard'
 import AddCard from '@/components/card/AddCard'
-import Card from '@/components/card/Card'
 import { NamespaceContext } from '@/contexts/NamespaceProvider'
 import { Role } from '@/types/Role'
+import { indexRoles, insertRole } from '@/services/role'
 
 export default function Page() {
   const [roles, setRoles] = useState<Role[]>([])
   const namespaceContext = useContext(NamespaceContext)
 
   const fetchRoles = async (namespaceId: number) => {
-    axios.get(`/rbac-service/v1/${namespaceId}/roles`).then((res) => {
+    indexRoles(namespaceId).then((res) => {
       setRoles(res.data)
     })
   }
 
   const createRole = async (name: string) => {
-    axios
-      .post(`/rbac-service/v1/${namespaceContext.state.selected.id}/roles`, {
-        name: name,
-      })
-      .then(() => fetchRoles(namespaceContext.state.selected.id))
+    insertRole(namespaceContext.state.selected.id, name).then(() =>
+      fetchRoles(namespaceContext.state.selected.id),
+    )
   }
 
   useEffect(() => {

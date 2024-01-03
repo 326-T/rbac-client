@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { useContext } from 'react'
 import RoleDrawerContent from './RoleDrawerContent'
 import Card from '@/components/card/Card'
@@ -8,6 +7,7 @@ import { DrawerContext } from '@/contexts/DrawerProvider'
 import { ModalContext } from '@/contexts/ModalProvider'
 import { Role } from '@/types/Role'
 import { NamespaceContext } from '@/contexts/NamespaceProvider'
+import { deleteRole } from '@/services/role'
 
 export default function RoleCard({ role, fetchRoles }: { role: Role; fetchRoles: () => void }) {
   const modalContext = useContext(ModalContext)
@@ -15,9 +15,7 @@ export default function RoleCard({ role, fetchRoles }: { role: Role; fetchRoles:
   const namespaceContext = useContext(NamespaceContext)
 
   const deleteTarget = () => {
-    axios
-      .delete(`/rbac-service/v1/${namespaceContext.state.selected.id}/roles/${role.id}`)
-      .then(fetchRoles)
+    deleteRole(namespaceContext.state.selected.id, role.id).then(fetchRoles)
   }
 
   const onDeleteClick = () => {

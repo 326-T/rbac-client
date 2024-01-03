@@ -1,5 +1,4 @@
 'use client'
-import axios from 'axios'
 import { useContext, useMemo, useRef, useState } from 'react'
 import { TextInput } from '@/components/TextInput'
 import CustomButton from '@/components/button/CustomButton'
@@ -13,6 +12,7 @@ import { Path } from '@/types/Path'
 import { DrawerContext } from '@/contexts/DrawerProvider'
 import PathDrawerContent from './PathDrawerContent'
 import { NamespaceContext } from '@/contexts/NamespaceProvider'
+import { deletePath, updatePath } from '@/services/path'
 
 export default function PathCard({ path, fetchPaths }: { path: Path; fetchPaths: () => void }) {
   const [edit, setEdit] = useState<boolean>(false)
@@ -23,28 +23,19 @@ export default function PathCard({ path, fetchPaths }: { path: Path; fetchPaths:
   const modified = useMemo(() => value !== path.regex, [value, path.regex])
   const ref = useRef(null)
 
-  const updatePath = () => {
+  const onEnterClick = () => {
     edit &&
       modified &&
-      axios
-        .put(`/rbac-service/v1/${namespaceContext.state.selected.id}/paths/${path.id}`, {
-          regex: value,
-        })
+      updatePath(namespaceContext.state.selected.id, path.id, value)
         .then(fetchPaths)
         .finally(() => setEdit(false))
-  }
-
-  const deletePath = () => {
-    axios
-      .delete(`/rbac-service/v1/${namespaceContext.state.selected.id}/paths/${path.id}`)
-      .then(fetchPaths)
   }
 
   const onDeleteClick = () => {
     modalContext.set(
       <Confirmation
         onClick={() => {
-          deletePath()
+          deletePath(namespaceContext.state.selected.id, path.id).then(fetchPaths)
           modalContext.turnOff()
         }}
       />,
@@ -64,9 +55,9 @@ export default function PathCard({ path, fetchPaths }: { path: Path; fetchPaths:
     <div ref={ref}>
       <Card>
         <div className='flex w-full items-center justify-between space-x-5'>
-          <TextInput value={value} onChange={setValue} disabled={!edit} onEnter={updatePath} />
+          <TextInput value={value} onChange={setValue} disabled={!edit} onEnter={onEnterClick} />
           {edit ? (
-            <CustomButton theme='SAVE' onClick={updatePath} disabled={!modified} />
+            <CustomButton theme='SAVE' onClick={onEnterClick} disabled={!modified} />
           ) : (
             <OperationMenu
               onEditClick={() => setEdit(true)}

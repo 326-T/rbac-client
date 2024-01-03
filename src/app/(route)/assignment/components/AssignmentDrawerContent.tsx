@@ -1,5 +1,4 @@
 'use client'
-import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import CustomButton from '@/components/button/CustomButton'
 import ProductionInfo from '@/components/modal/edit-modal-content/ProductionInfo'
@@ -9,6 +8,11 @@ import { DrawerContext } from '@/contexts/DrawerProvider'
 import { useRelationReducer } from '@/hooks/useRelationReducer'
 import { Role } from '@/types/Role'
 import { UserGroup } from '@/types/UserGroup'
+import { findRolesByUserGroupId, indexRoles } from '@/services/role'
+import {
+  deleteGroupRoleAssignment,
+  insertGroupRoleAssignment,
+} from '@/services/groupRoleAssignment'
 
 export default function AssignmentDrawerContent({
   userGroup,
@@ -24,12 +28,10 @@ export default function AssignmentDrawerContent({
   const drawerContext = useContext(DrawerContext)
 
   const fetchDetail = async (userGroup: UserGroup) => {
-    axios
-      .get(`/rbac-service/v1/${userGroup.namespaceId}/roles?user-group-id=${userGroup.id}`)
-      .then((res) => {
-        relationReducer.setRelated(res.data)
-      })
-    axios.get(`/rbac-service/v1/${userGroup.namespaceId}/roles`).then((res) => {
+    findRolesByUserGroupId(userGroup.namespaceId, userGroup.id).then((res) => {
+      relationReducer.setRelated(res.data)
+    })
+    indexRoles(userGroup.namespaceId).then((res) => {
       relationReducer.setAll(res.data)
     })
   }
@@ -38,15 +40,10 @@ export default function AssignmentDrawerContent({
     setEdit(false)
     Promise.all([
       ...relationReducer.state.pending.map((role: Role) =>
-        axios.post(`/rbac-service/v1/${userGroup.namespaceId}/group-role-assignments`, {
-          roleId: role.id,
-          userGroupId: userGroup.id,
-        }),
+        insertGroupRoleAssignment(userGroup.namespaceId, userGroup.id, role.id),
       ),
       ...relationReducer.state.removing.map((role: Role) =>
-        axios.delete(
-          `/rbac-service/v1/${userGroup.namespaceId}/group-role-assignments?user-group-id=${userGroup.id}&role-id=${role.id}`,
-        ),
+        deleteGroupRoleAssignment(userGroup.namespaceId, userGroup.id, role.id),
       ),
     ]).finally(() => {
       relationReducer.clear()
